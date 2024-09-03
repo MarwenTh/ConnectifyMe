@@ -37,7 +37,7 @@ const Navbar = (props: Props) => {
         </Link>
       </nav> */}
       <div className="flex gap-x-4 ">
-        <Link href="/">
+        <Link href="/sign-in">
           <Button>
             <IoMdLogIn className="mr-2 h-5 w-5" /> Get Started Now
           </Button>

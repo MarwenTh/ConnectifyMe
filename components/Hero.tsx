@@ -31,11 +31,12 @@ const Hero = (props: Props) => {
             help you share everything you create, curate and sell from your
             Instagram, TikTok, Twitter, YouTube and other social media profiles.
           </p>
-          <div className=" flex gap-x-2">
-            <Input type="text" placeholder="Username" />
+          <div className=" flex gap-x-2 w-96">
+            <Input type="text" placeholder="Username" className=" bg-white" />
             <Button>Get Started</Button>
           </div>
         </div>
+        <div></div>
       </section>
     </main>
   );
