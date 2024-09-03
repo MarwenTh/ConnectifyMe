@@ -55,6 +55,14 @@ export const authOptions: any = {
       return true;
     },
   },
+  pages: {
+    signIn: "/",
+  },
+  debug: process.env.NODE_ENV === "development",
+  session: {
+    strategy: "jwt",
+  },
+  secret: process.env.NEXTAUTH_SECRET,
 };
 
 export const handler = NextAuth(authOptions);

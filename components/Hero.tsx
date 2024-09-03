@@ -4,6 +4,7 @@ import Navbar from "./Navbar";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Button } from "./ui/button";
+import { BackgroundBeamsWithCollision } from "./ui/background-beams-with-collision";
 
 type Props = {};
 
