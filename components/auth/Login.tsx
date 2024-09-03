@@ -3,11 +3,22 @@ import React from "react";
 import { FaGithub, FaGoogle } from "react-icons/fa";
 import { BottomGradient } from "../ui/BottomGradient";
 import Link from "next/link";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
 const Login = (props: Props) => {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
+
+  if (session) {
+    router.push("/");
+  }
   return (
     <div className=" grid place-items-center min-h-screen bg-blue-600/50">
       <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 bg-white backdrop-blur-sm shadow-black dark:bg-black">
