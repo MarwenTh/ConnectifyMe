@@ -14,6 +14,8 @@ import ProfilePreview from "./ProfilePreview";
 import { FcBrokenLink } from "react-icons/fc";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import CopyLink from "./links/CopyLink";
+import AddLinks from "./links/AddLinks";
 
 export function SidebarMenu({ currentUser }: any) {
   const { data: session } = useSession();
@@ -118,54 +120,11 @@ export function SidebarMenu({ currentUser }: any) {
 
 // Dummy dashboard component with content
 const Dashboard = ({ currentUser }: any) => {
-  const [isCopied, setIsCopied] = useState(false);
-  // console.log(currentUser);
-  const handleClick = () => {
-    navigator.clipboard.writeText(
-      `http://localhost:3000/${currentUser?.username}`
-    );
-    setIsCopied(true);
-  };
-
-  useEffect(() => {
-    if (isCopied) {
-      setTimeout(() => {
-        setIsCopied(false);
-      }, 6000);
-    }
-  }, [isCopied]);
   return (
     <div className="grid grid-cols-1 md:grid-cols-5 grid-rows-1 gap-0 w-full bg-[#f3f3f1]">
-      <div className="md:col-span-3  w-full">
-        <div className="bg-[#dfe8f9] flex justify-between items-center mx-8 my-5 rounded-2xl py-4 px-6">
-          <div className=" flex items-center space-x-2">
-            <FcBrokenLink className="text-3xl" />
-            <p className=" font-medium">Your ConnectifyMe is live: </p>
-            <Link
-              className=" underline text-blue-900/80"
-              href={`http://localhost:3000/${currentUser?.username}`}
-            >
-              connectify.me/{currentUser?.username}
-            </Link>
-          </div>
-          <div>
-            {isCopied ? (
-              <Button
-                className=" bg-white rounded-full text-green-500 font-bold hover:bg-[#eee]/60"
-                onClick={handleClick}
-              >
-                Copied!
-              </Button>
-            ) : (
-              <Button
-                className=" bg-white rounded-full text-black font-bold hover:bg-[#eee]/60"
-                onClick={handleClick}
-              >
-                Copy your ConnectifyMe URL
-              </Button>
-            )}
-          </div>
-        </div>
+      <div className="md:col-span-3 overflow-y-auto ">
+        <CopyLink currentUser={currentUser} />
+        <AddLinks />
       </div>
       <div className="md:col-span-2 md:col-start-4 flex justify-center items-center md:border-l border-red-500">
         <ProfilePreview currentUser={currentUser} />

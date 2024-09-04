@@ -31,7 +31,7 @@ export async function getUserData() {
     const session = await auth();
     const user = await User.findOne({ email: session?.user?.email });
     if (!user) {
-      throw new Error("User not found");
+      return null;
     }
     return {
       id: user._id.toString(),
