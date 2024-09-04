@@ -4,15 +4,18 @@ import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
 import { TbBrandTabler, TbUserBolt } from "react-icons/tb";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { FaGear } from "react-icons/fa6";
+import { FaFire, FaGear } from "react-icons/fa6";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Logo } from "./Logo";
 import { LogoIcon } from "./LogoIcon";
 import { IoLogOut } from "react-icons/io5";
 import ProfilePreview from "./ProfilePreview";
+import { FcBrokenLink } from "react-icons/fc";
+import { Button } from "./ui/button";
+import Link from "next/link";
 
-export function SidebarMenu() {
+export function SidebarMenu({ currentUser }: any) {
   const { data: session } = useSession();
   const router = useRouter();
   const params = useSearchParams();
@@ -101,7 +104,7 @@ export function SidebarMenu() {
         </SidebarBody>
       </Sidebar>
       {tab === "Dashboard" ? (
-        <Dashboard />
+        <Dashboard currentUser={currentUser} />
       ) : tab === "Profile" ? (
         "Profile"
       ) : tab === "Settings" ? (
@@ -114,17 +117,58 @@ export function SidebarMenu() {
 }
 
 // Dummy dashboard component with content
-const Dashboard = () => {
+const Dashboard = ({ currentUser }: any) => {
+  const [isCopied, setIsCopied] = useState(false);
+  // console.log(currentUser);
+  const handleClick = () => {
+    navigator.clipboard.writeText(
+      `http://localhost:3000/${currentUser?.username}`
+    );
+    setIsCopied(true);
+  };
+
+  useEffect(() => {
+    if (isCopied) {
+      setTimeout(() => {
+        setIsCopied(false);
+      }, 6000);
+    }
+  }, [isCopied]);
   return (
-    <div className="grid grid-cols-1 md:grid-cols-5 grid-rows-1 gap-0 w-full">
-      <div className="md:col-span-3">
-        <div>bruh</div>
-        <div>bruh</div>
-        <div>bruh</div>
-        <div>bruh</div>
+    <div className="grid grid-cols-1 md:grid-cols-5 grid-rows-1 gap-0 w-full bg-[#f3f3f1]">
+      <div className="md:col-span-3  w-full">
+        <div className="bg-[#dfe8f9] flex justify-between items-center mx-8 my-5 rounded-2xl py-4 px-6">
+          <div className=" flex items-center space-x-2">
+            <FcBrokenLink className="text-3xl" />
+            <p className=" font-medium">Your ConnectifyMe is live: </p>
+            <Link
+              className=" underline text-blue-900/80"
+              href={`http://localhost:3000/${currentUser?.username}`}
+            >
+              connectify.me/{currentUser?.username}
+            </Link>
+          </div>
+          <div>
+            {isCopied ? (
+              <Button
+                className=" bg-white rounded-full text-green-500 font-bold hover:bg-[#eee]/60"
+                onClick={handleClick}
+              >
+                Copied!
+              </Button>
+            ) : (
+              <Button
+                className=" bg-white rounded-full text-black font-bold hover:bg-[#eee]/60"
+                onClick={handleClick}
+              >
+                Copy your ConnectifyMe URL
+              </Button>
+            )}
+          </div>
+        </div>
       </div>
       <div className="md:col-span-2 md:col-start-4 flex justify-center items-center md:border-l border-red-500">
-        <ProfilePreview />
+        <ProfilePreview currentUser={currentUser} />
       </div>
     </div>
   );

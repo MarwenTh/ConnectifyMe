@@ -1,13 +1,16 @@
-"use client";
 import { SidebarMenu } from "@/components/Sidebar";
+import { getUserData } from "@/lib/actions/getUser";
 import React from "react";
 
 type Props = {};
 
-const page = (props: Props) => {
+const page = async (props: Props) => {
+  const currentUser = await getUserData();
+
+  console.log(currentUser);
   return (
     <div>
-      <SidebarMenu />
+      <SidebarMenu currentUser={currentUser} />
     </div>
   );
 };
