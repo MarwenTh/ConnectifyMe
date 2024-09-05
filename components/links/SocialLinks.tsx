@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { FC, useState } from "react";
 import { Button } from "../ui/button";
 import { IoMdAdd } from "react-icons/io";
 import { FaXmark } from "react-icons/fa6";
@@ -97,35 +97,6 @@ const SocialLinks: FC<Props> = ({
     icon.name.toLowerCase().includes(search.toLowerCase())
   );
 
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(0);
-
-  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!scrollRef.current) return;
-    setIsDragging(true);
-    setStartX(e.pageX - scrollRef.current.offsetLeft);
-    setScrollLeft(scrollRef.current.scrollLeft);
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!isDragging || !scrollRef.current) return;
-    e.preventDefault();
-    const x = e.pageX - scrollRef.current.offsetLeft;
-    const walk = (x - startX) * 2; // Adjust scrolling speed
-    scrollRef.current.scrollLeft = scrollLeft - walk;
-  };
-
-  useEffect(() => {
-    document.addEventListener("mouseup", handleMouseUp);
-    return () => document.removeEventListener("mouseup", handleMouseUp);
-  }, []);
-
   return (
     <div>
       {!modalOpen ? (
@@ -200,35 +171,26 @@ const SocialLinks: FC<Props> = ({
               />
             )}
           </div>
-          <div
-            className="w-full overflow-x-auto scrollbar-thumb-slate-500 scrollbar-track-transparent scrollbar-thin scrollbar-corner-violet-800 cursor-pointer"
-            ref={scrollRef}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            style={{ cursor: isDragging ? "grabbing" : "pointer" }}
-          >
+          <div className="w-full overflow-x-auto scrollbar-thumb-slate-500 scrollbar-track-transparent scrollbar-thin scrollbar-corner-violet-800 cursor-pointer">
             <div className={`flex flex-row space-x-4 `}>
               {filteredIcons.map((icon, idx) => (
                 <div
                   key={idx}
                   className="flex items-center flex-col space-y-2 min-w-max"
-                  style={{ userSelect: "none" }}
                 >
                   <div
                     className="rounded-3xl grid place-items-center py-6 px-6 bg-[#f3f3f1] cursor-pointer"
                     onClick={() => {
-                      if (!isDragging) {
-                        setLinks([
-                          ...links,
-                          {
-                            id: links.length + 1,
-                            title: icon.name,
-                            link: "URL",
-                            active: true,
-                          },
-                        ]);
-                        setModalOpen(false);
-                      }
+                      setLinks([
+                        ...links,
+                        {
+                          id: links.length + 1,
+                          title: icon.name,
+                          link: "URL",
+                          active: true,
+                        },
+                      ]);
+                      setModalOpen(false);
                     }}
                   >
                     <Image
