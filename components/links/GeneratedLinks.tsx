@@ -7,13 +7,14 @@ import { SiSimpleanalytics } from "react-icons/si";
 import { PiTrashThin } from "react-icons/pi";
 
 type Props = {
+  setLinks: (links: Array<any>) => void;
   links: Array<any>;
   modalOpen: boolean;
 };
 
-const GeneratedLinks: FC<Props> = ({ links, modalOpen }) => {
+const GeneratedLinks: FC<Props> = ({ links, modalOpen, setLinks }) => {
   return (
-    <div className=" w-full mb-10">
+    <div className=" w-full mb-10 md:mb-0">
       {links?.map((link: any, idx) => (
         <div
           key={idx}
@@ -44,7 +45,14 @@ const GeneratedLinks: FC<Props> = ({ links, modalOpen }) => {
                 </div>
                 <div className=" flex flex-row justify-between pt-3 pr-2">
                   <SiSimpleanalytics size={15} className=" cursor-pointer" />
-                  <PiTrashThin size={20} className=" cursor-pointer" />
+                  <PiTrashThin
+                    size={20}
+                    className=" cursor-pointer"
+                    onClick={() => {
+                      const newLinks = links.filter((l) => l.id !== link.id);
+                      setLinks(newLinks);
+                    }}
+                  />
                 </div>
               </div>
             </div>

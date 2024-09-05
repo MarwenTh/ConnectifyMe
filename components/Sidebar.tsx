@@ -144,20 +144,24 @@ const Dashboard = ({ currentUser }: any) => {
   ]);
   return (
     <div className="md:flex gap-0 w-full bg-[#f3f3f1]">
-      <div className="md:col-span-3 overflow-auto h-screen lg:w-[65%]">
+      <div className="md:col-span-3 overflow-auto h-screen lg:w-[65%] scrollbar-thumb-slate-500 scrollbar-track-transparent scrollbar-thin scrollbar-corner-violet-800">
         <CopyLink currentUser={currentUser} />
-        <div className=" flex items-center flex-col w-full md:px-5">
+        <div className=" flex items-center flex-col w-full px-2 md:px-5">
           <AddLinks
             links={links}
             modalOpen={modalOpen}
             setLinks={setLinks}
             setModalOpen={setModalOpen}
           />
-          <GeneratedLinks links={links} modalOpen={modalOpen} />
+          <GeneratedLinks
+            setLinks={setLinks}
+            links={links}
+            modalOpen={modalOpen}
+          />
         </div>
       </div>
       <div className="hidden md:flex justify-center items-center w-full lg:w-[35%] md:border-l border-red-500">
-        <ProfilePreview currentUser={currentUser} />
+        <ProfilePreview currentUser={currentUser} links={links} />
       </div>
     </div>
   );

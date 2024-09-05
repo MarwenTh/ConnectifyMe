@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { Button } from "../ui/button";
 import { IoMdAdd } from "react-icons/io";
 import { FaXmark } from "react-icons/fa6";
@@ -24,7 +24,32 @@ const SocialLinks: FC<Props> = ({
   const [searchOpen, setSearchOpen] = useState(false);
   const [link, setLink] = useState("");
   const [isLinkValid, setIsLinkValid] = useState(false);
+  const [search, setSearch] = useState("");
   const socialIcons = [
+    {
+      name: "X",
+      icon: "https://link-types-assets.production.linktr.ee/twitter/icon.svg",
+    },
+    {
+      name: "facebook",
+      icon: "https://link-types-assets.production.linktr.ee/facebook/icon.svg",
+    },
+    {
+      name: "instagram",
+      icon: "https://link-types-assets.production.linktr.ee/instagram/icon.svg",
+    },
+    {
+      name: "tiktok",
+      icon: "https://link-types-assets.production.linktr.ee/tiktok/icon.svg",
+    },
+    {
+      name: "youtube",
+      icon: "https://link-types-assets.production.linktr.ee/youtube/icon.svg",
+    },
+    {
+      name: "twitch",
+      icon: "https://link-types-assets.production.linktr.ee/twitch/icon.svg",
+    },
     {
       name: "X",
       icon: "https://link-types-assets.production.linktr.ee/twitter/icon.svg",
@@ -67,6 +92,39 @@ const SocialLinks: FC<Props> = ({
       setIsLinkValid(true);
     }
   };
+
+  const filteredIcons = socialIcons.filter((icon) =>
+    icon.name.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!scrollRef.current) return;
+    setIsDragging(true);
+    setStartX(e.pageX - scrollRef.current.offsetLeft);
+    setScrollLeft(scrollRef.current.scrollLeft);
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isDragging || !scrollRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    const walk = (x - startX) * 2; // Adjust scrolling speed
+    scrollRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  useEffect(() => {
+    document.addEventListener("mouseup", handleMouseUp);
+    return () => document.removeEventListener("mouseup", handleMouseUp);
+  }, []);
 
   return (
     <div>
@@ -133,29 +191,44 @@ const SocialLinks: FC<Props> = ({
                 />
               </div>
             ) : (
-              <Input placeholder="Search" className=" w-full" />
+              <Input
+                placeholder="Search"
+                className=" w-full"
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                }}
+              />
             )}
           </div>
-          <div className="w-full overflow-x-auto">
-            <div className="flex flex-row space-x-4">
-              {socialIcons.map((icon, idx) => (
+          <div
+            className="w-full overflow-x-auto scrollbar-thumb-slate-500 scrollbar-track-transparent scrollbar-thin scrollbar-corner-violet-800 cursor-pointer"
+            ref={scrollRef}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            style={{ cursor: isDragging ? "grabbing" : "pointer" }}
+          >
+            <div className={`flex flex-row space-x-4 `}>
+              {filteredIcons.map((icon, idx) => (
                 <div
                   key={idx}
                   className="flex items-center flex-col space-y-2 min-w-max"
+                  style={{ userSelect: "none" }}
                 >
                   <div
                     className="rounded-3xl grid place-items-center py-6 px-6 bg-[#f3f3f1] cursor-pointer"
                     onClick={() => {
-                      setLinks([
-                        ...links,
-                        {
-                          id: links.length + 1,
-                          title: icon.name,
-                          link: "URL",
-                          active: true,
-                        },
-                      ]);
-                      setModalOpen(false);
+                      if (!isDragging) {
+                        setLinks([
+                          ...links,
+                          {
+                            id: links.length + 1,
+                            title: icon.name,
+                            link: "URL",
+                            active: true,
+                          },
+                        ]);
+                        setModalOpen(false);
+                      }
                     }}
                   >
                     <Image

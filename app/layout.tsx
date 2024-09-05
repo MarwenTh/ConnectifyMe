@@ -17,7 +17,10 @@ export default function RootLayout({
 }>) {
   return (
     <SessionWrapper>
-      <html lang="en">
+      <html
+        lang="en"
+        className="scrollbar-thumb-sky-700 scrollbar-track-sky-300 scrollbar-thin"
+      >
         <body className={inter.className}>{children}</body>
       </html>
     </SessionWrapper>

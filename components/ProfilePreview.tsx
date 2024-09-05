@@ -10,15 +10,36 @@ import { usePathname } from "next/navigation";
 
 type Props = {
   currentUser: any;
+  links: Array<any>;
 };
 
-const ProfilePreview: FC<Props> = ({ currentUser }) => {
+const ProfilePreview: FC<Props> = ({ currentUser, links }) => {
   const user = currentUser;
   const pathname = usePathname();
+
+  const stylesVariant = [
+    {
+      title: "Instagram",
+      color: "bg-gradient-to-r from-[#f9ce34] via-[#ee2a7b] to-[#6228d7]",
+    },
+    {
+      title: "Facebook",
+      color: "bg-gradient-to-r from-[#3b5998] to-[#FFFFFF]",
+    },
+    {
+      title: "Twitter",
+      color: "bg-gradient-to-r from-[#1DA1F2] to-[#FFFFFF]",
+    },
+    {
+      title: "Youtube",
+      color: "bg-gradient-to-r from-[#ff0000] to-[#282828]",
+    },
+  ];
+
   return (
-    <div className=" border h-[85vh] w-96 flex flex-col items-center justify-between rounded-3xl shadow-2xl pt-14 pb-8">
-      <div className=" w-full ">
-        <div className="flex flex-col items-center">
+    <div className=" border h-[85vh] w-96 flex flex-col items-center justify-between rounded-3xl shadow-2xl">
+      <div className=" w-full overflow-y-auto scrollbar-thumb-sky-700 scrollbar-track-transparent scrollbar-thin">
+        <div className="flex flex-col items-center pt-14">
           <Image
             src={user?.image as string}
             alt="profile"
@@ -35,22 +56,23 @@ const ProfilePreview: FC<Props> = ({ currentUser }) => {
           </span>
         </div>
         <div className=" flex flex-col space-y-3 w-full px-10">
-          <Button className=" w-full bg-gradient-to-r from-[#f9ce34] via-[#ee2a7b] to-[#6228d7]">
-            Instgaram
-          </Button>
-          <Button className=" w-full bg-gradient-to-r from-[#3b5998] to-[#FFFFFF]">
-            Facebook
-          </Button>
-          <Button className=" w-full bg-gradient-to-r from-[#1DA1F2] to-[#FFFFFF]">
-            Twitter
-          </Button>
-
-          <Button className=" w-full bg-gradient-to-r from-[#ff0000] to-[#282828]">
-            Youtube
-          </Button>
+          {links.map((link, idx) => (
+            <Link
+              href={link.link.startsWith("https") ? link.link : ""}
+              target={link.link.startsWith("https") ? "_blank" : ""}
+              key={idx}
+            >
+              <Button
+                key={idx}
+                className={` w-full ${stylesVariant[idx]?.color}`}
+              >
+                {link.title}
+              </Button>
+            </Link>
+          ))}
         </div>
       </div>
-      <div>
+      <div className=" my-2">
         {pathname === "/dashboard" ? (
           <div className="bg-neutral-900 text-neutral-50 shadow hover:bg-neutral-900/90 dark:bg-neutral-50 dark:text-neutral-900 dark:hover:bg-neutral-50/90 px-5 text-sm font-semibold py-2 rounded-full flex items-center space-x-2">
             <span>ConnectifyMe</span>
