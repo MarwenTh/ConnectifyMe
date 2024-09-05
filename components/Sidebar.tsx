@@ -16,6 +16,7 @@ import { Button } from "./ui/button";
 import Link from "next/link";
 import CopyLink from "./links/CopyLink";
 import AddLinks from "./links/AddLinks";
+import GeneratedLinks from "./links/GeneratedLinks";
 
 export function SidebarMenu({ currentUser }: any) {
   const { data: session } = useSession();
@@ -120,13 +121,42 @@ export function SidebarMenu({ currentUser }: any) {
 
 // Dummy dashboard component with content
 const Dashboard = ({ currentUser }: any) => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [links, setLinks] = useState([
+    {
+      id: 1,
+      title: "Instagram",
+      link: "https://www.instagram.com/marwen_ftw/",
+      active: true,
+    },
+    {
+      id: 2,
+      title: "Twitter",
+      link: "https://www.twitter.com/marwen_ftw/",
+      active: false,
+    },
+    {
+      id: 3,
+      title: "Facebook",
+      link: "https://www.facebook.com/marwen_ftw/",
+      active: true,
+    },
+  ]);
   return (
-    <div className="grid grid-cols-1 md:grid-cols-5 grid-rows-1 gap-0 w-full bg-[#f3f3f1]">
-      <div className="md:col-span-3 overflow-y-auto ">
+    <div className="md:flex gap-0 w-full bg-[#f3f3f1]">
+      <div className="md:col-span-3 overflow-auto h-screen lg:w-[65%]">
         <CopyLink currentUser={currentUser} />
-        <AddLinks />
+        <div className=" flex items-center flex-col w-full md:px-5">
+          <AddLinks
+            links={links}
+            modalOpen={modalOpen}
+            setLinks={setLinks}
+            setModalOpen={setModalOpen}
+          />
+          <GeneratedLinks links={links} modalOpen={modalOpen} />
+        </div>
       </div>
-      <div className="md:col-span-2 md:col-start-4 flex justify-center items-center md:border-l border-red-500">
+      <div className="hidden md:flex justify-center items-center w-full lg:w-[35%] md:border-l border-red-500">
         <ProfilePreview currentUser={currentUser} />
       </div>
     </div>

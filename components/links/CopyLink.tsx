@@ -26,13 +26,17 @@ const CopyLink: FC<Props> = ({ currentUser }) => {
     }
   }, [isCopied]);
   return (
-    <div className="bg-[#dfe8f9] flex justify-between items-center mx-8 my-5 rounded-2xl py-4 px-6">
-      <div className=" flex items-center space-x-2">
-        <FcBrokenLink className="text-2xl" />
-        <p className=" font-medium text-sm ">Your ConnectifyMe is live: </p>
+    <div className="bg-[#dfe8f9] flex flex-col md:justify-between justify-start items-start space-y-5 md:mx-8 md:my-5 rounded-2xl py-4 px-6">
+      <div className=" flex items-center flex-col space-x-2">
+        <div className=" flex items-center space-x-2">
+          <FcBrokenLink className="text-2xl" />
+          <p className=" font-medium md:text-sm text-xs ">
+            Your ConnectifyMe is live:{" "}
+          </p>
+        </div>
         <Link
           target="_blank"
-          className=" underline text-sm text-blue-900/80"
+          className=" underline md:text-sm text-blue-900/80 text-xs"
           href={`http://localhost:3000/${currentUser?.username}`}
         >
           connectify.me/{currentUser?.username}

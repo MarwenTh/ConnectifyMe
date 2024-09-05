@@ -13,11 +13,11 @@ type Props = {
 
 const GeneratedLinks: FC<Props> = ({ links, modalOpen }) => {
   return (
-    <div>
+    <div className=" w-full mb-10">
       {links?.map((link: any, idx) => (
         <div
           key={idx}
-          className={`bg-white rounded-2xl h-fit shadow-lg py-6 px-3 my-6  ${
+          className={`bg-white rounded-2xl h-fit shadow-lg py-6 px-3 my-3 md:my-6  ${
             modalOpen ? "blur-sm" : ""
           }`}
         >
@@ -28,11 +28,13 @@ const GeneratedLinks: FC<Props> = ({ links, modalOpen }) => {
                 <div className=" flex justify-between items-center">
                   <div>
                     <div className=" font-bold flex space-x-2 items-center">
-                      <span>{link.title ? link.title : "Title"}</span>
+                      <span className="block w-fit overflow-hidden text-ellipsis whitespace-nowrap">
+                        {link.title ? link.title : "Title"}
+                      </span>
                       <MdModeEdit size={17} />
                     </div>
                     <div className=" flex space-x-2 items-center">
-                      <span className=" text-neutral-600">
+                      <span className=" text-neutral-600 w-40 md:w-full overflow-hidden text-ellipsis whitespace-nowrap">
                         {link.link ? link.link : "URL"}
                       </span>
                       <MdModeEdit size={17} />

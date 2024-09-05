@@ -77,7 +77,6 @@ const SocialLinks: FC<Props> = ({
             setLink("");
             setModalOpen(true);
           }}
-          // make the button disabled if the link empty or not valid
         >
           <IoMdAdd className=" text-white text-xl" />
           <span className=" font-semibold">Add Link</span>
@@ -137,36 +136,41 @@ const SocialLinks: FC<Props> = ({
               <Input placeholder="Search" className=" w-full" />
             )}
           </div>
-          <div className=" grid grid-cols-6">
-            {socialIcons.map((icon, idx) => (
-              <div className=" flex items-center flex-col space-y-2 ">
+          <div className="w-full overflow-x-auto">
+            <div className="flex flex-row space-x-4">
+              {socialIcons.map((icon, idx) => (
                 <div
-                  className=" rounded-3xl grid place-items-center py-6 px-6 bg-[#f3f3f1] cursor-pointer"
-                  onClick={() => {
-                    setLinks([
-                      ...links,
-                      {
-                        id: links.length + 1,
-                        title: icon.name,
-                        link: "URL",
-                        active: true,
-                      },
-                    ]);
-                    setModalOpen(false);
-                  }}
+                  key={idx}
+                  className="flex items-center flex-col space-y-2 min-w-max"
                 >
-                  <Image
-                    src={icon.icon}
-                    width={40}
-                    height={40}
-                    alt={icon.name}
-                  />
+                  <div
+                    className="rounded-3xl grid place-items-center py-6 px-6 bg-[#f3f3f1] cursor-pointer"
+                    onClick={() => {
+                      setLinks([
+                        ...links,
+                        {
+                          id: links.length + 1,
+                          title: icon.name,
+                          link: "URL",
+                          active: true,
+                        },
+                      ]);
+                      setModalOpen(false);
+                    }}
+                  >
+                    <Image
+                      src={icon.icon}
+                      width={40}
+                      height={40}
+                      alt={icon.name}
+                    />
+                  </div>
+                  <span className="font-semibold text-xs capitalize">
+                    {icon.name}
+                  </span>
                 </div>
-                <span className=" font-semibold text-xs capitalize">
-                  {icon.name}
-                </span>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </motion.div>
       )}
