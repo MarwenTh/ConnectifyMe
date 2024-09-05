@@ -40,6 +40,7 @@ export async function getUserData() {
       fullName: user.fullName,
       image: user.image,
       role: user.role,
+      page: user.page,
       // Add any other fields you want to return
     };
   } catch (error) {

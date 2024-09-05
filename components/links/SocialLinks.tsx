@@ -7,6 +7,7 @@ import { Input } from "../ui/input";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { GoSearch } from "react-icons/go";
+import { savePage } from "@/lib/actions/page.action";
 
 type Props = {
   modalOpen: boolean;
@@ -26,30 +27,6 @@ const SocialLinks: FC<Props> = ({
   const [isLinkValid, setIsLinkValid] = useState(false);
   const [search, setSearch] = useState("");
   const socialIcons = [
-    {
-      name: "X",
-      icon: "https://link-types-assets.production.linktr.ee/twitter/icon.svg",
-    },
-    {
-      name: "facebook",
-      icon: "https://link-types-assets.production.linktr.ee/facebook/icon.svg",
-    },
-    {
-      name: "instagram",
-      icon: "https://link-types-assets.production.linktr.ee/instagram/icon.svg",
-    },
-    {
-      name: "tiktok",
-      icon: "https://link-types-assets.production.linktr.ee/tiktok/icon.svg",
-    },
-    {
-      name: "youtube",
-      icon: "https://link-types-assets.production.linktr.ee/youtube/icon.svg",
-    },
-    {
-      name: "twitch",
-      icon: "https://link-types-assets.production.linktr.ee/twitch/icon.svg",
-    },
     {
       name: "X",
       icon: "https://link-types-assets.production.linktr.ee/twitter/icon.svg",
@@ -97,12 +74,19 @@ const SocialLinks: FC<Props> = ({
     icon.name.toLowerCase().includes(search.toLowerCase())
   );
 
+  const savePageData = async () => {
+    const page: any = { links: links };
+    const response = await savePage(page);
+    console.log(response);
+  };
+
   return (
     <div>
       {!modalOpen ? (
         <Button
           className=" w-full rounded-full py-5 bg-blue-800 hover:bg-blue-700 flex space-x-1"
           onClick={() => {
+            savePageData();
             setLink("");
             setModalOpen(true);
           }}
@@ -139,7 +123,6 @@ const SocialLinks: FC<Props> = ({
                 setLinks([
                   ...links,
                   {
-                    id: links.length! + 1,
                     title: "Title",
                     link: link,
                     active: true,
@@ -184,7 +167,6 @@ const SocialLinks: FC<Props> = ({
                       setLinks([
                         ...links,
                         {
-                          id: links.length + 1,
                           title: icon.name,
                           link: "URL",
                           active: true,

@@ -11,6 +11,7 @@ const UserSchema = new Schema(
       default:
         "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y",
     },
+    page: { type: Schema.Types.ObjectId, ref: "Page" },
   },
   { timestamps: true }
 );
