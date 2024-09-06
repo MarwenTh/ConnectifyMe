@@ -17,7 +17,6 @@ import Link from "next/link";
 import CopyLink from "./links/CopyLink";
 import AddLinks from "./links/AddLinks";
 import GeneratedLinks from "./links/GeneratedLinks";
-import { savePage } from "@/lib/actions/page.action";
 
 export function SidebarMenu({ currentUser }: any) {
   const { data: session } = useSession();
@@ -125,11 +124,6 @@ const Dashboard = ({ currentUser }: any) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [links, setLinks] = useState<any[]>([]);
 
-  const savePageData = async () => {
-    const page: any = { links: links };
-    const response = await savePage(page);
-    console.log(response);
-  };
   return (
     <div className="md:flex gap-0 w-full bg-[#f3f3f1]">
       <div className="md:col-span-3 overflow-auto h-screen lg:w-[65%] scrollbar-thumb-slate-500 scrollbar-track-transparent scrollbar-thin scrollbar-corner-violet-800">

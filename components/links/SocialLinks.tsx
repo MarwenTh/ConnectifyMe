@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { IoMdAdd } from "react-icons/io";
 import { FaXmark } from "react-icons/fa6";
@@ -7,7 +7,6 @@ import { Input } from "../ui/input";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { GoSearch } from "react-icons/go";
-import { savePage } from "@/lib/actions/page.action";
 
 type Props = {
   modalOpen: boolean;
@@ -74,11 +73,9 @@ const SocialLinks: FC<Props> = ({
     icon.name.toLowerCase().includes(search.toLowerCase())
   );
 
-  const savePageData = async () => {
-    const page: any = { links: links };
-    const response = await savePage(page);
-    console.log(response);
-  };
+  // useEffect(() => {
+  //   savePageData();
+  // }, [links]);
 
   return (
     <div>
@@ -86,7 +83,6 @@ const SocialLinks: FC<Props> = ({
         <Button
           className=" w-full rounded-full py-5 bg-blue-800 hover:bg-blue-700 flex space-x-1"
           onClick={() => {
-            savePageData();
             setLink("");
             setModalOpen(true);
           }}
@@ -120,14 +116,6 @@ const SocialLinks: FC<Props> = ({
               className="  rounded-full py-5 bg-blue-800 hover:bg-blue-700"
               disabled={isLinkValid}
               onClick={() => {
-                setLinks([
-                  ...links,
-                  {
-                    title: "Title",
-                    link: link,
-                    active: true,
-                  },
-                ]);
                 setModalOpen(false);
               }}
             >

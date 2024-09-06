@@ -25,8 +25,6 @@ export function auth(
 }
 // Function to get user data from the database
 export async function getUserData() {
-  await connectToDatabase();
-
   try {
     const session = await auth();
     const user = await User.findOne({ email: session?.user?.email });
