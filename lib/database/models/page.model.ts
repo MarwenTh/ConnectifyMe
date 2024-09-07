@@ -3,7 +3,7 @@ import { model, models, Schema } from "mongoose";
 const PageSchema = new Schema(
   {
     // uri: { type: String, required: true, unique: true }, // URL slug for the page
-    // owner: { type: Schema.Types.ObjectId, ref: "User", required: true }, // Refers to the user who owns the page
+    owner: { type: Schema.Types.ObjectId, ref: "User", required: true }, // Refers to the user who owns the page
     // displayName: { type: String, default: "" }, // Profile name
     // profileImage: { type: String, default: "" }, // Profile picture URL
     // bio: { type: String, default: "" }, // Bio or description
@@ -21,4 +21,6 @@ const PageSchema = new Schema(
   { timestamps: true }
 );
 
-export const Page = models?.Page || model("Page", PageSchema);
+const Page = models.Page || model("Page", PageSchema);
+
+export default Page;

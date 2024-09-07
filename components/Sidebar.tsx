@@ -183,6 +183,32 @@ const Dashboard = ({ currentUser }: any) => {
     icon.name.toLowerCase().includes(search.toLowerCase())
   );
 
+  const addLinkData = async () => {
+    const newLink = {
+      title: "Title",
+      link: link,
+      active: true,
+    };
+
+    try {
+      const response = await axios.post("/api/page", {
+        links: [newLink], // Send only the new link
+      });
+
+      if (response.status === 200) {
+        console.log("Link added successfully");
+        setLinks([newLink]); // Reset links array with only the new link
+        setLink(""); // Clear the link input
+        setModalOpen(false); // Close the modal
+      }
+    } catch (error) {
+      console.error("Error adding link:", error);
+    }
+  };
+  //   console.log("Link", link);
+  //
+  //   console.log(links);
+
   return (
     <div className="md:flex gap-0 w-full bg-[#f3f3f1]">
       <div className="md:col-span-3 overflow-auto h-screen lg:w-[65%] scrollbar-thumb-slate-500 scrollbar-track-transparent scrollbar-thin scrollbar-corner-violet-800">
@@ -219,6 +245,7 @@ const Dashboard = ({ currentUser }: any) => {
                     <div className=" flex items-center space-x-5">
                       <Input
                         placeholder="Enter URL"
+                        value={link}
                         onChange={(e) => {
                           setLink(e.target.value);
                           checkLink(e.target.value);
@@ -227,16 +254,9 @@ const Dashboard = ({ currentUser }: any) => {
                       <Button
                         className="  rounded-full py-5 bg-blue-800 hover:bg-blue-700"
                         disabled={isLinkValid}
-                        onClick={async () => {
-                          setModalOpen(false);
-                          setLinks([
-                            ...links,
-                            { title: "Title", link: link, active: true },
-                          ]);
-                          await axios.post("/api/page", { links });
-                        }}
+                        onClick={addLinkData}
                       >
-                        <span className=" font-semibold">Add Link</span>
+                        <span className=" font-semibold">Add</span>
                       </Button>
                     </div>
                     <hr className=" my-8" />

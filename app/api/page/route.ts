@@ -1,12 +1,10 @@
 import { NextResponse } from "next/server";
 import { getUserData } from "@/lib/actions/getUser";
-import { Page } from "@/lib/database/models/page.model";
-import connectToDatabase from "@/lib/database";
+import Page from "@/lib/database/models/page.model";
+import User from "@/lib/database/models/user.model";
 
 export async function POST(request: Request) {
   try {
-    // await connectToDatabase(); // Ensure database connection is established
-
     const currentUser = await getUserData();
     if (!currentUser) {
       return NextResponse.json(
@@ -25,11 +23,29 @@ export async function POST(request: Request) {
       );
     }
 
-    const page = await Page.create({ links });
+    // Find if the user already has a page
+    let page = await Page.findOne({ owner: currentUser.id });
+
+    if (!page) {
+      // If the user doesn't have a page, create one and associate it with the user
+      page = await Page.create({ links, owner: currentUser.id });
+      await User.findByIdAndUpdate(
+        currentUser.id,
+        { page: page.id },
+        { new: true }
+      );
+    } else {
+      // If the user has a page, update it by adding new links
+      page = await Page.findByIdAndUpdate(
+        page._id,
+        { $push: { links: { $each: links } } },
+        { new: true }
+      );
+    }
 
     return NextResponse.json(page);
   } catch (error) {
-    console.error("Error creating page:", error);
+    console.error("Error updating page:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }
