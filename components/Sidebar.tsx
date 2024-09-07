@@ -13,7 +13,6 @@ import { IoLogOut } from "react-icons/io5";
 import ProfilePreview from "./ProfilePreview";
 import { FcBrokenLink } from "react-icons/fc";
 import { Button } from "./ui/button";
-import Link from "next/link";
 import CopyLink from "./links/CopyLink";
 import AddLinks from "./links/AddLinks";
 import GeneratedLinks from "./links/GeneratedLinks";
@@ -22,8 +21,9 @@ import { Input } from "./ui/input";
 import { GoSearch } from "react-icons/go";
 import { motion } from "framer-motion";
 import axios from "axios";
+import { ILink } from "@/interfaces";
 
-export function SidebarMenu({ currentUser }: any) {
+export function SidebarMenu({ currentUser, dataLinks }: any) {
   const { data: session } = useSession();
   const router = useRouter();
   const params = useSearchParams();
@@ -112,7 +112,7 @@ export function SidebarMenu({ currentUser }: any) {
         </SidebarBody>
       </Sidebar>
       {tab === "Dashboard" ? (
-        <Dashboard currentUser={currentUser} />
+        <Dashboard currentUser={currentUser} dataLinks={dataLinks} />
       ) : tab === "Profile" ? (
         "Profile"
       ) : tab === "Settings" ? (
@@ -125,11 +125,8 @@ export function SidebarMenu({ currentUser }: any) {
 }
 
 // Dummy dashboard component with content
-const Dashboard = ({ currentUser }: any) => {
+const Dashboard = ({ currentUser, dataLinks }: any) => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [links, setLinks] = useState<
-    { title: string; link: string; active: boolean }[]
-  >([]);
 
   const [searchOpen, setSearchOpen] = useState(false);
   const [link, setLink] = useState("");
@@ -183,21 +180,12 @@ const Dashboard = ({ currentUser }: any) => {
     icon.name.toLowerCase().includes(search.toLowerCase())
   );
 
-  const addLinkData = async () => {
-    const newLink = {
-      title: "Title",
-      link: link,
-      active: true,
-    };
-
+  const addLinkData = async (newLink: ILink) => {
     try {
-      const response = await axios.post("/api/page", {
-        links: [newLink], // Send only the new link
-      });
+      const response = await axios.post("/api/page", newLink);
 
       if (response.status === 200) {
         console.log("Link added successfully");
-        setLinks([newLink]); // Reset links array with only the new link
         setLink(""); // Clear the link input
         setModalOpen(false); // Close the modal
       }
@@ -205,10 +193,6 @@ const Dashboard = ({ currentUser }: any) => {
       console.error("Error adding link:", error);
     }
   };
-  //   console.log("Link", link);
-  //
-  //   console.log(links);
-
   return (
     <div className="md:flex gap-0 w-full bg-[#f3f3f1]">
       <div className="md:col-span-3 overflow-auto h-screen lg:w-[65%] scrollbar-thumb-slate-500 scrollbar-track-transparent scrollbar-thin scrollbar-corner-violet-800">
@@ -254,7 +238,13 @@ const Dashboard = ({ currentUser }: any) => {
                       <Button
                         className="  rounded-full py-5 bg-blue-800 hover:bg-blue-700"
                         disabled={isLinkValid}
-                        onClick={addLinkData}
+                        onClick={() =>
+                          addLinkData({
+                            title: "Link",
+                            link,
+                            active: true,
+                          })
+                        }
                       >
                         <span className=" font-semibold">Add</span>
                       </Button>
@@ -291,14 +281,11 @@ const Dashboard = ({ currentUser }: any) => {
                             <div
                               className="rounded-3xl grid place-items-center py-6 px-6 bg-[#f3f3f1] cursor-pointer"
                               onClick={() => {
-                                setLinks([
-                                  ...links,
-                                  {
-                                    title: icon.name,
-                                    link: "",
-                                    active: true,
-                                  },
-                                ]);
+                                addLinkData({
+                                  title: icon.name,
+                                  link: "",
+                                  active: true,
+                                });
                                 setModalOpen(false);
                               }}
                             >
@@ -321,11 +308,11 @@ const Dashboard = ({ currentUser }: any) => {
               </div>
             </div>
           </div>
-          {/* <GeneratedLinks
-            setLinks={setLinks}
-            links={links}
+          <GeneratedLinks
+            currentUser={currentUser}
             modalOpen={modalOpen}
-          /> */}
+            dataLinks={dataLinks}
+          />
         </div>
       </div>
       <div className="hidden md:flex justify-center items-center w-full lg:w-[35%] md:border-l border-red-500">
