@@ -19,9 +19,10 @@ import GeneratedLinks from "./links/GeneratedLinks";
 import { IoMdAdd } from "react-icons/io";
 import { Input } from "./ui/input";
 import { GoSearch } from "react-icons/go";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import axios from "axios";
 import { ILink } from "@/interfaces";
+import { ImSpinner10 } from "react-icons/im";
 
 export function SidebarMenu({ currentUser }: any) {
   const { data: session } = useSession();
@@ -133,6 +134,7 @@ const Dashboard = ({ currentUser }: any) => {
   const [isLinkValid, setIsLinkValid] = useState(false);
   const [search, setSearch] = useState("");
   const [shouldFetch, setShouldFetch] = useState(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const socialIcons = [
     {
       name: "X",
@@ -183,6 +185,7 @@ const Dashboard = ({ currentUser }: any) => {
 
   const addLinkData = async (newLink: ILink) => {
     try {
+      setLoading(true);
       const response = await axios.post("/api/page", newLink);
 
       if (response.status === 200) {
@@ -193,6 +196,8 @@ const Dashboard = ({ currentUser }: any) => {
       }
     } catch (error) {
       console.error("Error adding link:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -208,110 +213,128 @@ const Dashboard = ({ currentUser }: any) => {
           <div className=" flex justify-center w-full mt-10">
             <div className=" w-full">
               <div>
-                {!modalOpen ? (
-                  <Button
-                    className=" w-full rounded-full py-5 bg-blue-800 hover:bg-blue-700 flex space-x-1"
-                    onClick={() => {
-                      setLink("");
-                      setModalOpen(true);
-                    }}
-                  >
-                    <IoMdAdd className=" text-white text-xl" />
-                    <span className=" font-semibold">Add Link</span>
-                  </Button>
-                ) : (
-                  <motion.div
-                    initial={{ opacity: 0, y: -50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                    className="bg-white rounded-2xl w-full p-4"
-                  >
-                    <FaXmark
-                      className=" flex justify-end cursor-pointer hover:bg-neutral-600/20 rounded-full h-10 w-10 p-3 transition duration-200 mb-3"
-                      onClick={() => {
-                        setLink("");
-                        setModalOpen(false);
-                      }}
-                    />
-                    <div className=" flex items-center space-x-5">
-                      <Input
-                        placeholder="Enter URL"
-                        value={link}
-                        onChange={(e) => {
-                          setLink(e.target.value);
-                          checkLink(e.target.value);
+                <AnimatePresence mode="wait">
+                  {!modalOpen ? (
+                    <motion.div
+                      key="modal"
+                      initial={{ opacity: 0, y: -50 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -50 }}
+                      // transition={{ duration: 0.3, ease: "easeInOut" }}
+                    >
+                      <Button
+                        className=" w-full rounded-full py-5 bg-blue-800 hover:bg-blue-700 flex space-x-1"
+                        onClick={() => {
+                          setLink("");
+                          setModalOpen(true);
+                        }}
+                        disabled={loading}
+                      >
+                        {loading ? (
+                          <ImSpinner10 size={20} className=" animate-spin" />
+                        ) : (
+                          <>
+                            <IoMdAdd className=" text-white text-xl" />
+                            <span className=" font-semibold">Add Link</span>
+                          </>
+                        )}
+                      </Button>
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="button"
+                      initial={{ opacity: 0, y: 50 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 50 }}
+                      className="bg-white rounded-2xl w-full p-4"
+                    >
+                      <FaXmark
+                        className=" flex justify-end cursor-pointer hover:bg-neutral-600/20 rounded-full h-10 w-10 p-3 transition duration-200 mb-3"
+                        onClick={() => {
+                          setLink("");
+                          setModalOpen(false);
                         }}
                       />
-                      <Button
-                        className="  rounded-full py-5 bg-blue-800 hover:bg-blue-700"
-                        disabled={isLinkValid}
-                        onClick={() =>
-                          addLinkData({
-                            title: "Link",
-                            link,
-                            active: true,
-                          })
-                        }
-                      >
-                        <span className=" font-semibold">Add</span>
-                      </Button>
-                    </div>
-                    <hr className=" my-8" />
-                    <div className=" my-6  mr-3 ">
-                      {!searchOpen ? (
-                        <div className=" flex justify-between items-center">
-                          <span className=" text-sm font-bold">
-                            Most used social
-                          </span>
-                          <GoSearch
-                            className=" h-12 w-12 bg-white border rounded-full p-3 cursor-pointer hover:bg-[#f6f7f5]"
-                            onClick={() => setSearchOpen(true)}
-                          />
-                        </div>
-                      ) : (
+                      <div className=" flex items-center space-x-5">
                         <Input
-                          placeholder="Search"
-                          className=" w-full"
+                          placeholder="Enter URL"
+                          value={link}
                           onChange={(e) => {
-                            setSearch(e.target.value);
+                            setLink(e.target.value);
+                            checkLink(e.target.value);
                           }}
                         />
-                      )}
-                    </div>
-                    <div className="w-full overflow-x-auto scrollbar-thumb-slate-500 scrollbar-track-transparent scrollbar-thin scrollbar-corner-violet-800 cursor-pointer">
-                      <div className={`flex flex-row space-x-4 `}>
-                        {filteredIcons.map((icon, idx) => (
-                          <div
-                            key={idx}
-                            className="flex items-center flex-col space-y-2 min-w-max"
-                          >
-                            <div
-                              className="rounded-3xl grid place-items-center py-6 px-6 bg-[#f3f3f1] cursor-pointer"
-                              onClick={() => {
-                                addLinkData({
-                                  title: icon.name,
-                                  link: "",
-                                  active: true,
-                                });
-                                setModalOpen(false);
-                              }}
-                            >
-                              <Image
-                                src={icon.icon}
-                                width={40}
-                                height={40}
-                                alt={icon.name}
-                              />
-                            </div>
-                            <span className="font-semibold text-xs capitalize">
-                              {icon.name}
-                            </span>
-                          </div>
-                        ))}
+                        <Button
+                          className="  rounded-full py-5 bg-blue-800 hover:bg-blue-700"
+                          disabled={isLinkValid}
+                          onClick={() =>
+                            addLinkData({
+                              title: "Link",
+                              link,
+                              active: true,
+                            })
+                          }
+                        >
+                          <span className=" font-semibold">Add</span>
+                        </Button>
                       </div>
-                    </div>
-                  </motion.div>
-                )}
+                      <hr className=" my-8" />
+                      <div className=" my-6  mr-3 ">
+                        {!searchOpen ? (
+                          <div className=" flex justify-between items-center">
+                            <span className=" text-sm font-bold">
+                              Most used social
+                            </span>
+                            <GoSearch
+                              className=" h-12 w-12 bg-white border rounded-full p-3 cursor-pointer hover:bg-[#f6f7f5]"
+                              onClick={() => setSearchOpen(true)}
+                            />
+                          </div>
+                        ) : (
+                          <Input
+                            placeholder="Search"
+                            className=" w-full"
+                            onChange={(e) => {
+                              setSearch(e.target.value);
+                            }}
+                          />
+                        )}
+                      </div>
+                      <div className="w-full overflow-x-auto scrollbar-thumb-slate-500 scrollbar-track-transparent scrollbar-thin scrollbar-corner-violet-800">
+                        <div className={`flex flex-row space-x-4 `}>
+                          {filteredIcons.map((icon, idx) => (
+                            <div
+                              key={idx}
+                              className="flex items-center flex-col space-y-2 min-w-max"
+                            >
+                              <div
+                                className="rounded-3xl grid place-items-center py-5 px-5 bg-[#f3f3f1] cursor-pointer hover:bg-[#d5d6d4] transition duration-200"
+                                onClick={() => {
+                                  addLinkData({
+                                    title: icon.name,
+                                    link: "",
+                                    active: true,
+                                  });
+                                  setModalOpen(false);
+                                }}
+                              >
+                                <Image
+                                  src={icon.icon}
+                                  width={40}
+                                  height={40}
+                                  alt={icon.name}
+                                />
+                              </div>
+                              <span className="font-semibold text-xs capitalize">
+                                {icon.name}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </div>
           </div>

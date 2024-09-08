@@ -8,6 +8,8 @@ import { PiTrashThin } from "react-icons/pi";
 import axios from "axios";
 import { ILink } from "@/interfaces";
 import Skeleton from "../Skeleton";
+import { FcLink } from "react-icons/fc";
+import { AnimatePresence, motion } from "framer-motion";
 
 type Props = {
   currentUser: any;
@@ -84,67 +86,95 @@ const GeneratedLinks: FC<Props> = ({
     }
   };
 
-  if (loading) {
-    return <Skeleton count={3} />;
-  }
+  // if (loading) {
+  //   return <Skeleton count={3} />;
+  // }
 
   return (
     <div className=" w-full mb-10 md:mb-0">
-      {links
-        ?.slice()
-        .reverse()
-        .map((link: any, idx: number) => (
+      <AnimatePresence>
+        {links.length === 0 ? (
           <div
-            key={idx}
-            className={`bg-white rounded-2xl h-fit shadow-lg py-6 px-3 my-3 md:my-6  ${
+            className={`flex justify-center w-full flex-col items-center my-6 ${
               modalOpen ? "blur-sm" : ""
             }`}
           >
-            <div className=" h-full flex items-center justify-between">
-              <div className=" w-full flex items-center space-x-6">
-                <RiDraggable size={25} className=" cursor-grab " />
-                <div className=" w-full">
-                  <div className=" flex justify-between items-center">
-                    <div>
-                      <div className=" font-bold flex space-x-2 items-center">
-                        <span
-                          className="block w-fit overflow-hidden  whitespace-nowrap text-black text-sm max-w-[15rem] outline-none"
-                          // contentEditable={true}
-                        >
-                          {link.title ? link.title : "Title"}
-                        </span>
-                        <MdModeEdit size={17} />
-                      </div>
-                      <div className=" flex space-x-2 items-center">
-                        <span
-                          className=" text-neutral-600 w-40 md:w-full overflow-hidden max-w-md text-ellipsis whitespace-nowrap outline-none"
-                          // contentEditable={true}
-                        >
-                          {link.link ? link.link : "URL"}
-                        </span>
-                        <MdModeEdit size={17} />
-                      </div>
-                    </div>
-                    <Switch
-                      id={link._id}
-                      className="data-[state=checked]:bg-green-600"
-                      checked={link.active}
-                      onClick={() => handleActiveLink(link._id, link.active)}
-                    />
-                  </div>
-                  <div className=" flex flex-row justify-between pt-3 pr-2">
-                    <SiSimpleanalytics size={15} className=" cursor-pointer" />
-                    <PiTrashThin
-                      size={20}
-                      className=" cursor-pointer"
-                      onClick={() => handleDeleteLink(link._id)}
-                    />
-                  </div>
-                </div>
-              </div>
+            <div>
+              <FcLink size={150} className=" text-red-500 h-fit" />
+            </div>
+            <div className=" w-52">
+              <p className=" text-center text-sm font-bold font-Poppins">
+                Show the world who you are. Add a link to get started.
+              </p>
             </div>
           </div>
-        ))}
+        ) : (
+          links
+            ?.slice()
+            .reverse()
+            .map((link: any, idx: number) => (
+              <motion.div
+                initial={{ opacity: 0, zoom: 0.5 }}
+                animate={{ opacity: 1, zoom: 1 }}
+                transition={{ duration: 0.2 }}
+                exit={{ opacity: 0, zoom: 0.5 }}
+                key={idx}
+                className={`bg-white rounded-2xl h-fit shadow-lg py-6 px-3 my-3 md:my-6  ${
+                  modalOpen ? "blur-sm" : ""
+                }`}
+              >
+                <div className=" h-full flex items-center justify-between">
+                  <div className=" w-full flex items-center space-x-6">
+                    <RiDraggable size={25} className=" cursor-grab " />
+                    <div className=" w-full">
+                      <div className=" flex justify-between items-center">
+                        <div>
+                          <div className=" font-bold flex space-x-2 items-center">
+                            <span
+                              className="block w-fit overflow-hidden  whitespace-nowrap text-black text-sm max-w-[15rem] outline-none"
+                              // contentEditable={true}
+                            >
+                              {link.title ? link.title : "Title"}
+                            </span>
+                            <MdModeEdit size={17} />
+                          </div>
+                          <div className=" flex space-x-2 items-center">
+                            <span
+                              className=" text-neutral-600 w-40 md:w-full overflow-hidden max-w-md text-ellipsis whitespace-nowrap outline-none"
+                              // contentEditable={true}
+                            >
+                              {link.link ? link.link : "URL"}
+                            </span>
+                            <MdModeEdit size={17} />
+                          </div>
+                        </div>
+                        <Switch
+                          id={link._id}
+                          className="data-[state=checked]:bg-green-600"
+                          checked={link.active}
+                          onClick={() =>
+                            handleActiveLink(link._id, link.active)
+                          }
+                        />
+                      </div>
+                      <div className=" flex flex-row justify-between pt-3 pr-2">
+                        <SiSimpleanalytics
+                          size={15}
+                          className=" cursor-pointer"
+                        />
+                        <PiTrashThin
+                          size={20}
+                          className=" cursor-pointer"
+                          onClick={() => handleDeleteLink(link._id)}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))
+        )}
+      </AnimatePresence>
     </div>
   );
 };

@@ -43,6 +43,7 @@ const config = {
       },
       fontFamily: {
         Merienda: ["Merienda", "sans-serif"],
+        Poppins: ["Poppins", "sans-serif"],
       },
     },
   },
