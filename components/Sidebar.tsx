@@ -23,7 +23,7 @@ import { motion } from "framer-motion";
 import axios from "axios";
 import { ILink } from "@/interfaces";
 
-export function SidebarMenu({ currentUser, dataLinks }: any) {
+export function SidebarMenu({ currentUser }: any) {
   const { data: session } = useSession();
   const router = useRouter();
   const params = useSearchParams();
@@ -112,7 +112,7 @@ export function SidebarMenu({ currentUser, dataLinks }: any) {
         </SidebarBody>
       </Sidebar>
       {tab === "Dashboard" ? (
-        <Dashboard currentUser={currentUser} dataLinks={dataLinks} />
+        <Dashboard currentUser={currentUser} />
       ) : tab === "Profile" ? (
         "Profile"
       ) : tab === "Settings" ? (
@@ -125,13 +125,14 @@ export function SidebarMenu({ currentUser, dataLinks }: any) {
 }
 
 // Dummy dashboard component with content
-const Dashboard = ({ currentUser, dataLinks }: any) => {
+const Dashboard = ({ currentUser }: any) => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const [searchOpen, setSearchOpen] = useState(false);
   const [link, setLink] = useState("");
   const [isLinkValid, setIsLinkValid] = useState(false);
   const [search, setSearch] = useState("");
+  const [shouldFetch, setShouldFetch] = useState(true);
   const socialIcons = [
     {
       name: "X",
@@ -188,11 +189,17 @@ const Dashboard = ({ currentUser, dataLinks }: any) => {
         console.log("Link added successfully");
         setLink(""); // Clear the link input
         setModalOpen(false); // Close the modal
+        refreshLinks(); // Refresh the links
       }
     } catch (error) {
       console.error("Error adding link:", error);
     }
   };
+
+  const refreshLinks = () => {
+    setShouldFetch(true);
+  };
+
   return (
     <div className="md:flex gap-0 w-full bg-[#f3f3f1]">
       <div className="md:col-span-3 overflow-auto h-screen lg:w-[65%] scrollbar-thumb-slate-500 scrollbar-track-transparent scrollbar-thin scrollbar-corner-violet-800">
@@ -311,7 +318,9 @@ const Dashboard = ({ currentUser, dataLinks }: any) => {
           <GeneratedLinks
             currentUser={currentUser}
             modalOpen={modalOpen}
-            dataLinks={dataLinks}
+            refreshLinks={refreshLinks}
+            setShouldFetch={setShouldFetch}
+            shouldFetch={shouldFetch}
           />
         </div>
       </div>

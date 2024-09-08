@@ -44,7 +44,7 @@ export async function DELETE(
 // update link active status true and false
 export async function PUT(
   request: Request,
-  { params, active }: { params: { linkId: string }; active: boolean }
+  { params }: { params: { linkId: string } }
 ) {
   try {
     const currentUser = await getUserData();
@@ -56,6 +56,7 @@ export async function PUT(
     }
 
     const linkId = params.linkId;
+    const { active } = await request.json(); // Get the new active status from the request body
 
     // Find the user's page and update the link active status
     const page = await Page.findOneAndUpdate(

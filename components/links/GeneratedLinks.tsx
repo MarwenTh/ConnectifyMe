@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useCallback, useEffect } from "react";
+import React, { FC, useCallback, useEffect, useState } from "react";
 import { MdModeEdit } from "react-icons/md";
 import { RiDraggable } from "react-icons/ri";
 import { Switch } from "../ui/switch";
@@ -7,35 +7,49 @@ import { SiSimpleanalytics } from "react-icons/si";
 import { PiTrashThin } from "react-icons/pi";
 import axios from "axios";
 import { ILink } from "@/interfaces";
+import Skeleton from "../Skeleton";
 
 type Props = {
   currentUser: any;
   modalOpen: boolean;
-  dataLinks: any;
+  setShouldFetch: (shouldFetch: boolean) => void;
+  shouldFetch: boolean;
+  refreshLinks: () => void;
 };
 
-const GeneratedLinks: FC<Props> = ({ currentUser, modalOpen, dataLinks }) => {
-  const [isEditing, setIsEditing] = React.useState(false);
-  const [links, setLinks] = React.useState<ILink[]>([]);
-  const [loading, setLoading] = React.useState(false);
-  const [active, setActive] = React.useState(links[0]?.active);
+const GeneratedLinks: FC<Props> = ({
+  currentUser,
+  modalOpen,
+  setShouldFetch,
+  shouldFetch,
+  refreshLinks,
+}) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [links, setLinks] = useState<ILink[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const fetchLinksData = async () => {
     try {
+      setLoading(true);
       const response = await axios.get("/api/page");
       if (response.status === 200) {
         const data = response.data;
         setLinks(data.links);
-        // console.log("Links fetched successfully", links);
+        setShouldFetch(false);
       }
     } catch (error) {
       console.error("Error fetching links:", error);
+    } finally {
+      setLoading(false);
     }
   };
-  //
-  //   useEffect(() => {
-  //     fetchLinksData();
-  //   }, []);
+  useEffect(() => {
+    if (shouldFetch) {
+      fetchLinksData();
+    }
+  }, [shouldFetch]);
+
+  // Call this function whenever you need to refresh the data
 
   const handleDeleteLink = async (linkId: string) => {
     try {
@@ -43,28 +57,40 @@ const GeneratedLinks: FC<Props> = ({ currentUser, modalOpen, dataLinks }) => {
       if (response.status === 200) {
         console.log("Link deleted successfully");
         // fetchLinksData(); // Refresh the links
+        refreshLinks(); // Refresh the links
       }
     } catch (error) {
       console.error("Error deleting link:", error);
     }
   };
 
-  const handleActiveLink = async (linkId: string, active: boolean) => {
+  const handleActiveLink = async (linkId: string, currentActive: boolean) => {
     try {
-      const newActive = !active; // Get the toggled state
-      setActive(newActive); // Update the local state
-      const response = await axios.put(`/api/page/${linkId}`, { newActive });
+      const newActive = !currentActive;
+      const response = await axios.put(`/api/page/${linkId}`, {
+        active: newActive,
+      });
       if (response.status === 200) {
         console.log("Link active status updated successfully");
+        // Update the local state to reflect the change
+        setLinks((prevLinks) =>
+          prevLinks.map((link) =>
+            link._id === linkId ? { ...link, active: newActive } : link
+          )
+        );
       }
     } catch (error) {
       console.error("Error updating link active status:", error);
     }
   };
 
+  if (loading) {
+    return <Skeleton count={3} />;
+  }
+
   return (
     <div className=" w-full mb-10 md:mb-0">
-      {dataLinks
+      {links
         ?.slice()
         .reverse()
         .map((link: any, idx: number) => (
@@ -101,11 +127,9 @@ const GeneratedLinks: FC<Props> = ({ currentUser, modalOpen, dataLinks }) => {
                     </div>
                     <Switch
                       id={link._id}
-                      className=" text-green-500"
+                      className="data-[state=checked]:bg-green-600"
                       checked={link.active}
-                      onClick={() => {
-                        handleActiveLink(link._id, active);
-                      }}
+                      onClick={() => handleActiveLink(link._id, link.active)}
                     />
                   </div>
                   <div className=" flex flex-row justify-between pt-3 pr-2">
