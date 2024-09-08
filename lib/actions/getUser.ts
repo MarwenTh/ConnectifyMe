@@ -60,8 +60,8 @@ export async function getSession(): Promise<Session | null> {
 }
 
 export async function getUserData() {
-  await connectToDatabase();
   try {
+    await connectToDatabase();
     const session = await getSession();
 
     if (!session?.user?.email) {
@@ -81,9 +81,10 @@ export async function getUserData() {
       fullName: currentUser.fullName,
       image: currentUser.image,
       role: currentUser.role,
-      page: currentUser.page._id.toString(),
+      page: currentUser.page?._id?.toString(),
     };
   } catch (error) {
     console.error("Error fetching user data:", error);
+    return null;
   }
 }

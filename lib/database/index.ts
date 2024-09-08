@@ -2,19 +2,28 @@ import mongoose from "mongoose";
 
 const MONGODB_URI = process.env.MONGODB_URI!;
 
+let cachedConnection: typeof mongoose | null = null;
+
 const connectToDatabase = async () => {
-  // Use mongoose.connection.readyState instead
-  if (mongoose.connection.readyState === 1) {
-    console.log("Already connected to MongoDB");
-    return;
+  if (cachedConnection) {
+    console.log("Using cached database connection");
+    return cachedConnection;
+  }
+
+  if (mongoose.connections[0].readyState) {
+    console.log("Using existing database connection");
+    cachedConnection = mongoose;
+    return cachedConnection;
   }
 
   try {
-    await mongoose.connect(MONGODB_URI);
-    console.log("MongoDB connection successfully established.");
+    const db = await mongoose.connect(MONGODB_URI);
+    console.log("New database connection established");
+    cachedConnection = db;
+    return cachedConnection;
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);
-    throw new Error("Error connecting to Mongoose");
+    throw new Error("Error connecting to MongoDB");
   }
 };
 

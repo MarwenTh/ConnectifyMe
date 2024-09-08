@@ -84,3 +84,8 @@ export async function PUT(
     );
   }
 }
+
+export async function PUT(
+  request: Request,
+  { params }: { params: { linkId: string } }
+) {}
