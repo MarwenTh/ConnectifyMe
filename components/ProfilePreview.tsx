@@ -10,10 +10,9 @@ import { usePathname } from "next/navigation";
 
 type Props = {
   currentUser: any;
-  links: Array<any>;
 };
 
-const ProfilePreview: FC<Props> = ({ currentUser, links }) => {
+const ProfilePreview: FC<Props> = ({ currentUser }) => {
   const user = currentUser;
   const pathname = usePathname();
 
@@ -34,6 +33,13 @@ const ProfilePreview: FC<Props> = ({ currentUser, links }) => {
       title: "Youtube",
       color: "bg-gradient-to-r from-[#ff0000] to-[#282828]",
     },
+  ];
+
+  const links = [
+    { title: "Instagram", link: "https://instagram.com" },
+    { title: "Facebook", link: "https://facebook.com" },
+    { title: "Twitter", link: "https://twitter.com" },
+    { title: "Youtube", link: "https://youtube.com" },
   ];
 
   return (

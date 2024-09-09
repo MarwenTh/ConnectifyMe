@@ -12,6 +12,7 @@ import { Input } from "../ui/input";
 import { GoSearch } from "react-icons/go";
 import Image from "next/image";
 import GeneratedLinks from "./GeneratedLinks";
+import ProfilePreview from "../ProfilePreview";
 
 type Props = {};
 
@@ -237,7 +238,7 @@ const Dashboard = ({ currentUser }: any) => {
         </div>
       </div>
       <div className="hidden md:flex justify-center items-center w-full lg:w-[35%] md:border-l border-red-500">
-        {/* <ProfilePreview currentUser={currentUser} links={links} /> */}
+        <ProfilePreview currentUser={currentUser} />
       </div>
     </div>
   );
