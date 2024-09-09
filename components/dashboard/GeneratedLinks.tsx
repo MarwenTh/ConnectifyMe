@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { MdModeEdit } from "react-icons/md";
 import { RiDraggable } from "react-icons/ri";
 import { Switch } from "../ui/switch";
@@ -32,7 +32,9 @@ const GeneratedLinks: FC<Props> = ({
 
   const [link, setLink] = useState<string | null>(null);
   const [title, setTitle] = useState<string | null>(null);
-  const [editIndex, setEditIndex] = useState<number | null>(null);
+  const [editTitleIndex, setEditTitleIndex] = useState<number | null>(null);
+  const [editLinkIndex, setEditLinkIndex] = useState<number | null>(null);
+  const linkRef = useRef<HTMLSpanElement>(null); // Create a ref for the span
 
   const fetchLinksData = async () => {
     try {
@@ -70,23 +72,44 @@ const GeneratedLinks: FC<Props> = ({
     }
   };
 
-  const handleActiveLink = async (linkId: string, currentActive: boolean) => {
+  // const handleUpdateData = async (linkId: string, currentActive: boolean) => {
+  //   try {
+  //     const newActive = !currentActive;
+  //     const response = await axios.put(`/api/page/${linkId}`, {
+  //       active: newActive,
+  //     });
+  //     if (response.status === 200) {
+  //       console.log("Link active status updated successfully");
+  //       // Update the local state to reflect the change
+  //       setLinks((prevLinks) =>
+  //         prevLinks.map((link) =>
+  //           link._id === linkId ? { ...link, active: newActive } : link
+  //         )
+  //       );
+  //     }
+  //   } catch (error) {
+  //     console.error("Error updating link active status:", error);
+  //   }
+  // };
+  const handleUpdateLink = async (
+    linkId: string,
+    title: string,
+    url: string,
+    active: boolean
+  ) => {
     try {
-      const newActive = !currentActive;
       const response = await axios.put(`/api/page/${linkId}`, {
-        active: newActive,
+        title,
+        link: url,
+        active,
       });
       if (response.status === 200) {
-        console.log("Link active status updated successfully");
+        console.log("Link updated successfully");
         // Update the local state to reflect the change
-        setLinks((prevLinks) =>
-          prevLinks.map((link) =>
-            link._id === linkId ? { ...link, active: newActive } : link
-          )
-        );
+        refreshLinks(); // Refresh the links
       }
     } catch (error) {
-      console.error("Error updating link active status:", error);
+      console.error("Error updating link:", error);
     }
   };
 
@@ -105,15 +128,15 @@ const GeneratedLinks: FC<Props> = ({
       <AnimatePresence>
         {links.length === 0 ? (
           <div
-            className={`flex justify-center w-full flex-col items-center my-6 ${
+            className={`flex justify-center w-full flex-col items-center my-6 animate-pulse ${
               modalOpen ? "blur-sm" : ""
             }`}
           >
             <div>
-              <FcLink size={150} className=" text-red-500 h-fit opacity-50" />
+              <FcLink size={150} className=" text-red-500 h-fit opacity-70" />
             </div>
             <div className=" w-52">
-              <p className=" text-center text-sm font-bold font-Poppins opacity-50">
+              <p className=" text-center text-sm font-bold font-Poppins opacity-70">
                 Show the world who you are. Add a link to get started.
               </p>
             </div>
@@ -123,7 +146,8 @@ const GeneratedLinks: FC<Props> = ({
             ?.slice()
             .reverse()
             .map((link: any, idx: number) => {
-              const isEdit = editIndex === idx;
+              const isEditTitle = editTitleIndex === idx;
+              const isEditLink = editLinkIndex === idx;
 
               return (
                 <motion.div
@@ -142,48 +166,94 @@ const GeneratedLinks: FC<Props> = ({
                       <div className=" w-full">
                         <div className=" flex justify-between items-center">
                           <div>
-                            <div className=" font-bold flex space-x-2 items-center">
+                            <div className="font-bold flex space-x-2 items-center">
                               <span
-                                className="block w-fit overflow-hidden  whitespace-nowrap text-black text-sm max-w-[15rem] outline-none"
-                                contentEditable={isEdit}
+                                className={`block w-fit overflow-hidden whitespace-nowrap text-black text-sm max-w-[15rem] outline-none select-none ${
+                                  isEditTitle ? "cursor-text" : "cursor-pointer"
+                                }`}
+                                onClick={() => setEditTitleIndex(idx)}
+                                contentEditable={isEditTitle}
+                                suppressContentEditableWarning={true}
                                 onBlur={(
                                   e: React.FocusEvent<HTMLDivElement>
                                 ) => {
                                   const newTitle = e.target.innerText;
                                   if (newTitle && newTitle !== link.title) {
                                     setTitle(newTitle);
+                                    handleUpdateLink(
+                                      link._id,
+                                      newTitle,
+                                      link.link,
+                                      link.active
+                                    );
                                   } else {
                                     e.target.innerText = link.title;
                                   }
+                                  setEditTitleIndex(null);
                                 }}
-                                // onFocus={(e) => e.target.innerText}
                               >
                                 {link.title ? link.title : "Title"}
                               </span>
                               <MdModeEdit
                                 size={17}
                                 onClick={() =>
-                                  setEditIndex(isEdit ? null : idx)
+                                  setEditTitleIndex(isEditLink ? null : idx)
                                 }
-                                className=" cursor-pointer"
+                                className="cursor-pointer"
                               />
                             </div>
+
                             <div className=" flex space-x-2 items-center">
                               <span
-                                className=" text-neutral-600 w-40 md:w-full overflow-hidden max-w-md text-ellipsis whitespace-nowrap outline-none"
-                                // contentEditable={true}
+                                className={`text-neutral-600 w-40 md:w-full overflow-hidden max-w-md text-ellipsis whitespace-nowrap outline-none select-none ${
+                                  isEditLink ? "cursor-text" : "cursor-pointer"
+                                } `}
+                                contentEditable={isEditLink}
+                                suppressContentEditableWarning={true}
+                                onClick={() => {
+                                  setEditLinkIndex(idx);
+                                }}
+                                onBlur={(
+                                  e: React.FocusEvent<HTMLDivElement>
+                                ) => {
+                                  const newLink = e.target.innerText;
+                                  if (newLink && newLink !== link.link) {
+                                    setLink(newLink);
+                                    handleUpdateLink(
+                                      link._id,
+                                      link.title,
+                                      newLink,
+                                      link.active
+                                    );
+                                  } else {
+                                    e.target.innerText = link.link;
+                                  }
+                                  setEditLinkIndex(null);
+                                }}
                               >
                                 {link.link ? link.link : "URL"}
                               </span>
-                              <MdModeEdit size={17} />
+                              <MdModeEdit
+                                size={17}
+                                onClick={() =>
+                                  setEditLinkIndex(isEditLink ? null : idx)
+                                }
+                                className="cursor-pointer"
+                              />
                             </div>
                           </div>
                           <Switch
                             id={link._id}
                             className="data-[state=checked]:bg-green-600"
                             checked={link.active}
-                            onClick={() =>
-                              handleActiveLink(link._id, link.active)
+                            onClick={
+                              () =>
+                                handleUpdateLink(
+                                  link._id,
+                                  link.title,
+                                  link.link,
+                                  !link.active
+                                ) // Toggle active state
                             }
                           />
                         </div>

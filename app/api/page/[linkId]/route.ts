@@ -42,6 +42,48 @@ export async function DELETE(
 }
 
 // update link active status true and false
+// export async function PUT(
+//   request: Request,
+//   { params }: { params: { linkId: string } }
+// ) {
+//   try {
+//     const currentUser = await getUserData();
+//     if (!currentUser) {
+//       return NextResponse.json(
+//         { error: "User not authenticated" },
+//         { status: 401 }
+//       );
+//     }
+//
+//     const linkId = params.linkId;
+//     const { active } = await request.json(); // Get the new active status from the request body
+//
+//     // Find the user's page and update the link active status
+//     const page = await Page.findOneAndUpdate(
+//       { owner: currentUser.id, "links._id": linkId },
+//       { $set: { "links.$.active": active } },
+//       { new: true }
+//     );
+//
+//     if (!page) {
+//       return NextResponse.json(
+//         { error: "Page not found or link not updated" },
+//         { status: 404 }
+//       );
+//     }
+//
+//     return NextResponse.json({
+//       message: "Link active status updated successfully",
+//       active,
+//     });
+//   } catch (error) {
+//     console.error("Error updating link active status:", error);
+//     return NextResponse.json(
+//       { error: "Internal Server Error" },
+//       { status: 500 }
+//     );
+//   }
+// }
 export async function PUT(
   request: Request,
   { params }: { params: { linkId: string } }
@@ -56,12 +98,18 @@ export async function PUT(
     }
 
     const linkId = params.linkId;
-    const { active } = await request.json(); // Get the new active status from the request body
+    const { title, link, active } = await request.json(); // Get title, link, and active status from request body
 
-    // Find the user's page and update the link active status
+    // Create an update object dynamically based on the fields received in the request
+    const updateFields: any = {};
+    if (title !== undefined) updateFields["links.$.title"] = title;
+    if (link !== undefined) updateFields["links.$.link"] = link;
+    if (active !== undefined) updateFields["links.$.active"] = active;
+
+    // Find the user's page and update the link data
     const page = await Page.findOneAndUpdate(
       { owner: currentUser.id, "links._id": linkId },
-      { $set: { "links.$.active": active } },
+      { $set: updateFields },
       { new: true }
     );
 
@@ -73,19 +121,14 @@ export async function PUT(
     }
 
     return NextResponse.json({
-      message: "Link active status updated successfully",
-      active,
+      message: "Link updated successfully",
+      updatedFields: updateFields,
     });
   } catch (error) {
-    console.error("Error updating link active status:", error);
+    console.error("Error updating link:", error);
     return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }
     );
   }
 }
-
-export async function PUT(
-  request: Request,
-  { params }: { params: { linkId: string } }
-) {}
