@@ -34,7 +34,7 @@ const GeneratedLinks: FC<Props> = ({
   const [title, setTitle] = useState<string | null>(null);
   const [editTitleIndex, setEditTitleIndex] = useState<number | null>(null);
   const [editLinkIndex, setEditLinkIndex] = useState<number | null>(null);
-  const linkRef = useRef<HTMLSpanElement>(null); // Create a ref for the span
+  const [validLink, setValidLink] = useState<boolean>(true);
 
   const fetchLinksData = async () => {
     try {
@@ -72,25 +72,6 @@ const GeneratedLinks: FC<Props> = ({
     }
   };
 
-  // const handleUpdateData = async (linkId: string, currentActive: boolean) => {
-  //   try {
-  //     const newActive = !currentActive;
-  //     const response = await axios.put(`/api/page/${linkId}`, {
-  //       active: newActive,
-  //     });
-  //     if (response.status === 200) {
-  //       console.log("Link active status updated successfully");
-  //       // Update the local state to reflect the change
-  //       setLinks((prevLinks) =>
-  //         prevLinks.map((link) =>
-  //           link._id === linkId ? { ...link, active: newActive } : link
-  //         )
-  //       );
-  //     }
-  //   } catch (error) {
-  //     console.error("Error updating link active status:", error);
-  //   }
-  // };
   const handleUpdateLink = async (
     linkId: string,
     title: string,
@@ -205,8 +186,10 @@ const GeneratedLinks: FC<Props> = ({
 
                             <div className=" flex space-x-2 items-center">
                               <span
-                                className={`text-neutral-600 w-40 md:w-full overflow-hidden max-w-md text-ellipsis whitespace-nowrap outline-none select-none ${
-                                  isEditLink ? "cursor-text" : "cursor-pointer"
+                                className={`text-neutral-600 w-40 md:w-full scrollbar-none overflow-auto max-w-md  whitespace-nowrap outline-none select-none ${
+                                  isEditLink
+                                    ? "cursor-text "
+                                    : "cursor-pointer text-ellipsis"
                                 } `}
                                 contentEditable={isEditLink}
                                 suppressContentEditableWarning={true}
