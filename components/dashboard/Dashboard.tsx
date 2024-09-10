@@ -25,6 +25,8 @@ const Dashboard = ({ currentUser }: any) => {
   const [search, setSearch] = useState("");
   const [shouldFetch, setShouldFetch] = useState(true);
   const [loading, setLoading] = useState<boolean>(false);
+  const [linksArray, setLinksArray] = useState<ILink[]>([]);
+  const [loadingPreview, setLoadingPreview] = useState<boolean>(false);
   const socialIcons = [
     {
       name: "X",
@@ -94,6 +96,8 @@ const Dashboard = ({ currentUser }: any) => {
   const refreshLinks = () => {
     setShouldFetch(true);
   };
+
+  // console.log("linksArray", linksArray);
 
   return (
     <div className="md:flex gap-0 w-full bg-[#f3f3f1]">
@@ -234,11 +238,19 @@ const Dashboard = ({ currentUser }: any) => {
             refreshLinks={refreshLinks}
             setShouldFetch={setShouldFetch}
             shouldFetch={shouldFetch}
+            linkArray={linksArray}
+            setLinkArray={setLinksArray}
+            loadingPreview={loadingPreview}
+            setLoadingPreview={setLoadingPreview}
           />
         </div>
       </div>
       <div className="hidden md:flex justify-center items-center w-full lg:w-[35%] md:border-l border-red-500">
-        <ProfilePreview currentUser={currentUser} />
+        <ProfilePreview
+          currentUser={currentUser}
+          links={linksArray}
+          loadingPreview={loadingPreview}
+        />
       </div>
     </div>
   );

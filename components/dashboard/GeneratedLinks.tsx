@@ -7,7 +7,6 @@ import { SiSimpleanalytics } from "react-icons/si";
 import { PiTrashThin } from "react-icons/pi";
 import axios from "axios";
 import { ILink } from "@/interfaces";
-import Skeleton from "../Skeleton";
 import { FcLink } from "react-icons/fc";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -17,6 +16,10 @@ type Props = {
   setShouldFetch: (shouldFetch: boolean) => void;
   shouldFetch: boolean;
   refreshLinks: () => void;
+  linkArray: ILink[];
+  setLinkArray: (linkArray: ILink[]) => void;
+  loadingPreview: boolean;
+  setLoadingPreview: (loading: boolean) => void;
 };
 
 const GeneratedLinks: FC<Props> = ({
@@ -25,6 +28,10 @@ const GeneratedLinks: FC<Props> = ({
   setShouldFetch,
   shouldFetch,
   refreshLinks,
+  linkArray,
+  setLinkArray,
+  loadingPreview,
+  setLoadingPreview,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [links, setLinks] = useState<ILink[]>([]);
@@ -34,21 +41,23 @@ const GeneratedLinks: FC<Props> = ({
   const [title, setTitle] = useState<string | null>(null);
   const [editTitleIndex, setEditTitleIndex] = useState<number | null>(null);
   const [editLinkIndex, setEditLinkIndex] = useState<number | null>(null);
-  const [validLink, setValidLink] = useState<boolean>(true);
 
   const fetchLinksData = async () => {
     try {
       setLoading(true);
+      setLoadingPreview(true);
       const response = await axios.get("/api/page");
       if (response.status === 200) {
         const data = response.data;
         setLinks(data.links);
+        setLinkArray(data.links);
         setShouldFetch(false);
       }
     } catch (error) {
       console.error("Error fetching links:", error);
     } finally {
       setLoading(false);
+      setLoadingPreview(false);
     }
   };
   useEffect(() => {

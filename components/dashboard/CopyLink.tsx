@@ -26,8 +26,8 @@ const CopyLink: FC<Props> = ({ currentUser }) => {
     }
   }, [isCopied]);
   return (
-    <div className="bg-[#dfe8f9] flex flex-col md:justify-between justify-start items-start space-y-5 md:mx-8 md:my-5 rounded-2xl py-4 px-6">
-      <div className=" flex items-center flex-col space-x-2">
+    <div className="bg-[#dfe8f9] flex flex-col md:flex-row md:items-center md:justify-between justify-start items-start space-y-5 md:space-y-0 md:mx-8 md:my-5 rounded-2xl py-4 px-6">
+      <div className=" flex items-center flex-col md:flex-row space-x-2">
         <div className=" flex items-center space-x-2">
           <FcBrokenLink className="text-2xl" />
           <p className=" font-medium md:text-sm text-xs ">

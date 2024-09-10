@@ -1,18 +1,21 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import Image from "next/image";
 import React, { FC } from "react";
 import { Button } from "./ui/button";
 import { FcBrokenLink } from "react-icons/fc";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ILink } from "@/interfaces";
+import { FaSpinner } from "react-icons/fa6";
 
 type Props = {
   currentUser: any;
+  links: Array<ILink>;
+  loadingPreview: boolean;
 };
 
-const ProfilePreview: FC<Props> = ({ currentUser }) => {
+const ProfilePreview: FC<Props> = ({ currentUser, links, loadingPreview }) => {
   const user = currentUser;
   const pathname = usePathname();
 
@@ -35,15 +38,11 @@ const ProfilePreview: FC<Props> = ({ currentUser }) => {
     },
   ];
 
-  const links = [
-    { title: "Instagram", link: "https://instagram.com" },
-    { title: "Facebook", link: "https://facebook.com" },
-    { title: "Twitter", link: "https://twitter.com" },
-    { title: "Youtube", link: "https://youtube.com" },
-  ];
-
   return (
-    <div className=" border h-[85vh] w-96 flex flex-col items-center justify-between rounded-3xl shadow-2xl">
+    <div className="relative border h-[85vh] w-96 flex flex-col items-center justify-between rounded-3xl shadow-2xl">
+      {loadingPreview && (
+        <FaSpinner className=" animate-spin absolute left-5 top-3" />
+      )}
       <div className=" w-full overflow-y-auto scrollbar-thumb-sky-700 scrollbar-track-transparent scrollbar-thin">
         <div className="flex flex-col items-center pt-14">
           <Image
@@ -62,20 +61,23 @@ const ProfilePreview: FC<Props> = ({ currentUser }) => {
           </span>
         </div>
         <div className=" flex flex-col space-y-3 w-full px-10">
-          {links.map((link, idx) => (
-            <Link
-              href={link.link.startsWith("https") ? link.link : ""}
-              target={link.link.startsWith("https") ? "_blank" : ""}
-              key={idx}
-            >
-              <Button
+          {links
+            ?.slice()
+            .reverse()
+            .map((link, idx) => (
+              <Link
+                href={link.link.startsWith("https") ? link.link : ""}
+                target={link.link.startsWith("https") ? "_blank" : ""}
                 key={idx}
-                className={` w-full ${stylesVariant[idx]?.color}`}
               >
-                {link.title}
-              </Button>
-            </Link>
-          ))}
+                <Button
+                  key={idx}
+                  className={` w-full ${stylesVariant[idx]?.color}`}
+                >
+                  {link.title}
+                </Button>
+              </Link>
+            ))}
         </div>
       </div>
       <div className=" my-2">
