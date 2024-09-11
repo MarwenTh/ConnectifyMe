@@ -3,4 +3,5 @@ export interface ILink {
   title: string;
   link: string;
   active: boolean;
+  variant?: string;
 }

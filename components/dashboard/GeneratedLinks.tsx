@@ -34,7 +34,7 @@ const GeneratedLinks: FC<Props> = ({
   setLoadingPreview,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [links, setLinks] = useState<ILink[]>([]);
+  const [links, setLinks] = useState<ILink[] | null>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   const [link, setLink] = useState<string | null>(null);
@@ -52,6 +52,8 @@ const GeneratedLinks: FC<Props> = ({
         setLinks(data.links);
         setLinkArray(data.links);
         setShouldFetch(false);
+      } else {
+        setLinks([]);
       }
     } catch (error) {
       console.error("Error fetching links:", error);
@@ -116,7 +118,7 @@ const GeneratedLinks: FC<Props> = ({
       className=" w-full mb-10 md:mb-0"
     >
       <AnimatePresence>
-        {links.length === 0 ? (
+        {links?.length === 0 ? (
           <div
             className={`flex justify-center w-full flex-col items-center my-6 animate-pulse ${
               modalOpen ? "blur-sm" : ""
@@ -134,8 +136,8 @@ const GeneratedLinks: FC<Props> = ({
         ) : (
           links
             ?.slice()
-            .reverse()
-            .map((link: any, idx: number) => {
+            ?.reverse()
+            ?.map((link: any, idx: number) => {
               const isEditTitle = editTitleIndex === idx;
               const isEditLink = editLinkIndex === idx;
 

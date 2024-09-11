@@ -70,10 +70,7 @@ const ProfilePreview: FC<Props> = ({ currentUser, links, loadingPreview }) => {
                 target={link.link.startsWith("https") ? "_blank" : ""}
                 key={idx}
               >
-                <Button
-                  key={idx}
-                  className={` w-full ${stylesVariant[idx]?.color}`}
-                >
+                <Button key={idx} className={` w-full ${link.variant} `}>
                   {link.title}
                 </Button>
               </Link>

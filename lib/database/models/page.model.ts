@@ -15,6 +15,7 @@ const PageSchema = new Schema(
         title: { type: String }, // Link title
         link: { type: String }, // Link URL
         active: { type: Boolean, default: true }, // Status if the link is active
+        variant: { type: String, default: "" }, // Variant for the link
       },
     ],
   },

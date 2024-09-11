@@ -73,31 +73,6 @@ const SocialLinks: FC<Props> = ({
     icon.name.toLowerCase().includes(search.toLowerCase())
   );
 
-  const savePageData = async () => {
-    const pageData = {
-      links: links,
-    };
-    try {
-      const response = await fetch("/api/page", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(pageData),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const result = await response.json();
-      console.log("Page saved successfully:", result);
-      // You might want to update your state or UI here
-    } catch (error) {
-      console.error("Error saving page data:", error);
-      // Handle the error in your UI
-    }
-  };
   return (
     <div>
       {!modalOpen ? (
