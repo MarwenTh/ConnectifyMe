@@ -15,6 +15,7 @@ import { RiFontSize } from "react-icons/ri";
 import Appearance from "./appearance/Appearance";
 import ProfilePreview from "./ProfilePreview";
 import { ILink } from "@/interfaces";
+import { LuPaintbrush } from "react-icons/lu";
 
 export function SidebarMenu({ currentUser }: any) {
   const { data: session } = useSession();
@@ -41,7 +42,7 @@ export function SidebarMenu({ currentUser }: any) {
     {
       label: "Appearance",
       icon: (
-        <RiFontSize className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+        <LuPaintbrush className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {

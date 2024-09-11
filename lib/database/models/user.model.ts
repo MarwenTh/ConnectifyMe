@@ -3,7 +3,7 @@ import { Schema, model, models } from "mongoose";
 const UserSchema = new Schema(
   {
     email: { type: String, required: true, unique: true },
-    username: { type: String },
+    username: { type: String, unique: true },
     fullName: { type: String },
     role: { type: String, default: "user" },
     image: {
@@ -12,6 +12,7 @@ const UserSchema = new Schema(
         "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y",
     },
     page: { type: Schema.Types.ObjectId, ref: "Page" },
+    bio: { type: String, default: "Hey there! I'm using ConnectifyMe" },
   },
   { timestamps: true }
 );

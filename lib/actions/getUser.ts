@@ -82,6 +82,7 @@ export async function getUserData() {
       image: currentUser.image,
       role: currentUser.role,
       page: currentUser.page?._id?.toString(),
+      bio: currentUser.bio,
     };
   } catch (error) {
     console.error("Error fetching user data:", error);
