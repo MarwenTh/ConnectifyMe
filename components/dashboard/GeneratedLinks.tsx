@@ -211,6 +211,8 @@ const GeneratedLinks: FC<Props> = ({
                                   e: React.FocusEvent<HTMLDivElement>
                                 ) => {
                                   const newLink = e.target.innerText;
+                                  //check if the link is valid and not just a random url that does not work
+
                                   if (newLink && newLink !== link.link) {
                                     setLink(newLink);
                                     handleUpdateLink(

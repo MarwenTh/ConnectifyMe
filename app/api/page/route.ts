@@ -67,6 +67,17 @@ export async function GET(request: Request) {
 
     const page = await Page.findOne({ owner: currentUser.id });
 
+    // if there's no page for the user, create one
+    if (!page) {
+      const newPage = await Page.create({ owner: currentUser.id });
+      await User.findByIdAndUpdate(
+        currentUser.id,
+        { page: newPage.id },
+        { new: true }
+      );
+      return NextResponse.json(newPage);
+    }
+
     return NextResponse.json(page);
   } catch (error) {
     console.error("Error fetching page:", error);

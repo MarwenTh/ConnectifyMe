@@ -11,6 +11,10 @@ import { Logo } from "./Logo";
 import { LogoIcon } from "./LogoIcon";
 import { IoLogOut } from "react-icons/io5";
 import Dashboard from "./dashboard/Dashboard";
+import { RiFontSize } from "react-icons/ri";
+import Appearance from "./appearance/Appearance";
+import ProfilePreview from "./ProfilePreview";
+import { ILink } from "@/interfaces";
 
 export function SidebarMenu({ currentUser }: any) {
   const { data: session } = useSession();
@@ -18,6 +22,8 @@ export function SidebarMenu({ currentUser }: any) {
   const params = useSearchParams();
   const initialTab = params.get("tab") || "Dashboard";
   const [tab, setTab] = useState(initialTab);
+  const [linksArray, setLinksArray] = useState<ILink[]>([]);
+  const [loadingPreview, setLoadingPreview] = useState<boolean>(false);
 
   useEffect(() => {
     if (tab) {
@@ -33,6 +39,12 @@ export function SidebarMenu({ currentUser }: any) {
       ),
     },
     {
+      label: "Appearance",
+      icon: (
+        <RiFontSize className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+      ),
+    },
+    {
       label: "Profile",
       icon: (
         <TbUserBolt className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
@@ -44,12 +56,6 @@ export function SidebarMenu({ currentUser }: any) {
         <FaGear className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
-    // {
-    //   label: "Logout",
-    //   icon: (
-    //     <FaArrowLeft className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
-    //   ),
-    // },
   ];
   const [open, setOpen] = useState(false);
   return (
@@ -101,7 +107,29 @@ export function SidebarMenu({ currentUser }: any) {
         </SidebarBody>
       </Sidebar>
       {tab === "Dashboard" ? (
-        <Dashboard currentUser={currentUser} />
+        <div className="md:flex gap-0 w-full bg-[#f3f3f1]">
+          <Dashboard
+            currentUser={currentUser}
+            linksArray={linksArray}
+            setLinksArray={setLinksArray}
+            loadingPreview={loadingPreview}
+            setLoadingPreview={setLoadingPreview}
+          />
+          <ProfilePreview
+            currentUser={currentUser}
+            links={linksArray}
+            loadingPreview={loadingPreview}
+          />
+        </div>
+      ) : tab === "Appearance" ? (
+        <div className="md:flex gap-0 w-full bg-[#f3f3f1]">
+          <Appearance />
+          <ProfilePreview
+            currentUser={currentUser}
+            links={linksArray}
+            loadingPreview={loadingPreview}
+          />
+        </div>
       ) : tab === "Profile" ? (
         "Profile"
       ) : tab === "Settings" ? (

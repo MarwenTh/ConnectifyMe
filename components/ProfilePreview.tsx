@@ -39,59 +39,61 @@ const ProfilePreview: FC<Props> = ({ currentUser, links, loadingPreview }) => {
   ];
 
   return (
-    <div className="relative border h-[85vh] w-96 flex flex-col items-center justify-between rounded-3xl shadow-2xl">
-      {loadingPreview && (
-        <FaSpinner className=" animate-spin absolute left-5 top-3" />
-      )}
-      <div className=" w-full overflow-y-auto scrollbar-thumb-sky-700 scrollbar-track-transparent scrollbar-thin">
-        <div className="flex flex-col items-center pt-14">
-          <Image
-            src={user?.image as string}
-            alt="profile"
-            width={90}
-            height={90}
-            className="rounded-full "
-          />
-          <p className=" font-extrabold font-Merienda my-2 text-base">
-            @{user?.username}
-          </p>
-          <span className=" text-xs text-center w-64 mb-5">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum
-            tempora mol
-          </span>
-        </div>
-        <div className=" flex flex-col space-y-3 w-full px-10">
-          {links
-            ?.slice()
-            .reverse()
-            .map((link, idx) => (
-              <Link
-                href={link.link.startsWith("https") ? link.link : ""}
-                target={link.link.startsWith("https") ? "_blank" : ""}
-                key={idx}
-              >
-                <Button key={idx} className={` w-full ${link.variant} `}>
-                  {link.title}
-                </Button>
-              </Link>
-            ))}
-        </div>
-      </div>
-      <div className=" my-2">
-        {pathname === "/dashboard" ? (
-          <div className="bg-neutral-900 text-neutral-50 shadow hover:bg-neutral-900/90 dark:bg-neutral-50 dark:text-neutral-900 dark:hover:bg-neutral-50/90 px-5 text-sm font-semibold py-2 rounded-full flex items-center space-x-2">
-            <span>ConnectifyMe</span>
-            <FcBrokenLink size={25} className=" flex-shrink-0" />
-          </div>
-        ) : (
-          <Link
-            href={pathname === "/dashboard" ? "#" : "/"}
-            className="bg-neutral-900 text-neutral-50 shadow hover:bg-neutral-900/90 dark:bg-neutral-50 dark:text-neutral-900 dark:hover:bg-neutral-50/90 px-5 text-sm font-semibold py-2 rounded-full flex items-center space-x-2"
-          >
-            <span>ConnectifyMe</span>
-            <FcBrokenLink size={25} className=" flex-shrink-0" />
-          </Link>
+    <div className="hidden md:flex justify-center items-center w-full lg:w-[40%] md:border-l border-red-500">
+      <div className="relative border h-[85vh] w-96 flex flex-col items-center justify-between rounded-3xl shadow-2xl">
+        {loadingPreview && (
+          <FaSpinner className=" animate-spin absolute left-5 top-3" />
         )}
+        <div className=" w-full overflow-y-auto scrollbar-thumb-sky-700 scrollbar-track-transparent scrollbar-thin">
+          <div className="flex flex-col items-center pt-14">
+            <Image
+              src={user?.image as string}
+              alt="profile"
+              width={90}
+              height={90}
+              className="rounded-full "
+            />
+            <p className=" font-extrabold font-Merienda my-2 text-base">
+              @{user?.username}
+            </p>
+            <span className=" text-xs text-center w-64 mb-5">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Voluptatum tempora mol
+            </span>
+          </div>
+          <div className=" flex flex-col space-y-3 w-full px-10">
+            {links
+              ?.slice()
+              .reverse()
+              .map((link, idx) => (
+                <Link
+                  href={link.link.startsWith("https") ? link.link : ""}
+                  target={link.link.startsWith("https") ? "_blank" : ""}
+                  key={idx}
+                >
+                  <Button key={idx} className={` w-full ${link.variant} `}>
+                    {link.title}
+                  </Button>
+                </Link>
+              ))}
+          </div>
+        </div>
+        <div className=" my-2">
+          {pathname === "/dashboard" ? (
+            <div className="bg-neutral-900 text-neutral-50 shadow hover:bg-neutral-900/90 dark:bg-neutral-50 dark:text-neutral-900 dark:hover:bg-neutral-50/90 px-5 text-sm font-semibold py-2 rounded-full flex items-center space-x-2">
+              <span>ConnectifyMe</span>
+              <FcBrokenLink size={25} className=" flex-shrink-0" />
+            </div>
+          ) : (
+            <Link
+              href={pathname === "/dashboard" ? "#" : "/"}
+              className="bg-neutral-900 text-neutral-50 shadow hover:bg-neutral-900/90 dark:bg-neutral-50 dark:text-neutral-900 dark:hover:bg-neutral-50/90 px-5 text-sm font-semibold py-2 rounded-full flex items-center space-x-2"
+            >
+              <span>ConnectifyMe</span>
+              <FcBrokenLink size={25} className=" flex-shrink-0" />
+            </Link>
+          )}
+        </div>
       </div>
     </div>
   );
