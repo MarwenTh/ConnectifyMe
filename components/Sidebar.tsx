@@ -124,7 +124,7 @@ export function SidebarMenu({ currentUser }: any) {
         </div>
       ) : tab === "Appearance" ? (
         <div className="md:flex gap-0 w-full bg-[#f3f3f1]">
-          <Appearance />
+          <Appearance currentUser={currentUser} />
           <ProfilePreview
             currentUser={currentUser}
             links={linksArray}

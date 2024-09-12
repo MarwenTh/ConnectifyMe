@@ -3,6 +3,7 @@ import ProfilePreview from "@/components/ProfilePreview";
 import { ILink } from "@/interfaces";
 import axios from "axios";
 import React, { FC, useEffect, useState } from "react";
+import { PropagateLoader } from "react-spinners";
 
 type Props = {
   params: { username: string };
@@ -35,7 +36,9 @@ const UserPage: FC<Props> = ({ params }) => {
       {userData ? (
         <ProfilePreview links={links} userData={userData} isPublic={true} />
       ) : (
-        <p>Loading...</p>
+        <div className="h-screen grid place-items-center bg-[#eee]">
+          <PropagateLoader speedMultiplier={1} color="#343434" />
+        </div>
       )}
     </div>
   );

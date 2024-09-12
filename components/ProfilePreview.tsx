@@ -14,7 +14,7 @@ type Props = {
   links: Array<ILink>;
   loadingPreview?: boolean;
   isPublic?: boolean;
-  userData: any;
+  userData?: any;
 };
 
 const ProfilePreview: FC<Props> = ({
@@ -52,15 +52,15 @@ const ProfilePreview: FC<Props> = ({
     <div
       className={`${
         !isPublic
-          ? "hidden md:flex justify-center items-center w-full lg:w-[40%] md:border-l border-red-500"
-          : "w-full h-screen overflow-y-auto flex justify-center items-center pb-2 bg-red-400 scrollbar-thumb-sky-700 scrollbar-track-transparent scrollbar-thin"
+          ? "hidden md:flex justify-center items-center w-full lg:w-[40%] md:border-l border-[#e0e2d9]"
+          : "w-full h-screen overflow-y-auto flex justify-center items-center pb-2 scrollbar-thumb-sky-700 scrollbar-track-transparent scrollbar-thin"
       }`}
     >
       <div
         className={`${
           !isPublic
             ? "relative border h-[85vh] w-96 flex flex-col items-center overflow-y-auto rounded-3xl shadow-2xl scrollbar-thumb-sky-700 scrollbar-track-transparent scrollbar-thin"
-            : " flex flex-col items-center w-[35%] h-screen"
+            : " flex flex-col items-center w-full lg:w-[35%] h-screen"
         }`}
       >
         {loadingPreview && (
@@ -96,6 +96,7 @@ const ProfilePreview: FC<Props> = ({
                   href={link.link.startsWith("https") ? link.link : ""}
                   target={link.link.startsWith("https") ? "_blank" : ""}
                   key={idx}
+                  className=" w-full"
                 >
                   <Button key={idx} className={` w-full ${link.variant} `}>
                     {link.title}
@@ -123,7 +124,7 @@ const ProfilePreview: FC<Props> = ({
         </div> */}
         <div className=" mt-auto ">
           {pathname === "/dashboard" ? (
-            <div className="font-Poppins  dark:text-neutral-900  px-5 text-sm font-semibold py-2 rounded-full flex items-center space-x-2 sticky bottom-0">
+            <div className="font-Poppins  dark:text-neutral-900  px-5 text-sm font-semibold py-2 rounded-full flex items-center space-x-2 sticky bottom-0 mb-1 mt-5">
               <span>ConnectifyMe</span>
               <FcBrokenLink size={25} className=" flex-shrink-0" />
             </div>
@@ -131,7 +132,7 @@ const ProfilePreview: FC<Props> = ({
             <Link
               href={pathname === "/dashboard" ? "#" : "/"}
               target="_blank"
-              className="font-Poppins bg-neutral-900 text-neutral-50 shadow hover:bg-neutral-900/90 dark:bg-neutral-50 dark:text-neutral-900 dark:hover:bg-neutral-50/90 px-5 text-sm font-semibold py-2 rounded-full flex items-center space-x-2 sticky bottom-0"
+              className="font-Poppins bg-neutral-900 text-neutral-50 shadow hover:bg-neutral-900/90 dark:bg-neutral-50 dark:text-neutral-900 dark:hover:bg-neutral-50/90 px-5 text-sm font-semibold py-2 rounded-full flex items-center space-x-2 sticky bottom-0 mt-10 mb-3"
             >
               <span>Join {userData.username} on ConnectifyMe</span>
               <FcBrokenLink size={25} className=" flex-shrink-0" />

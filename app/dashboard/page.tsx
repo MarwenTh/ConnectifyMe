@@ -8,7 +8,6 @@ type Props = {};
 const page = async (props: Props) => {
   const currentUser = await getUserData();
 
-  // console.log(currentUser);
   return (
     <div>
       <SidebarMenu currentUser={currentUser} />
