@@ -20,6 +20,7 @@ type Props = {
   setLinkArray: (linkArray: ILink[]) => void;
   loadingPreview: boolean;
   setLoadingPreview: (loading: boolean) => void;
+  fetchDataAgain?: boolean;
 };
 
 const GeneratedLinks: FC<Props> = ({
@@ -32,6 +33,7 @@ const GeneratedLinks: FC<Props> = ({
   setLinkArray,
   loadingPreview,
   setLoadingPreview,
+  fetchDataAgain,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [links, setLinks] = useState<ILink[] | null>([]);
@@ -52,6 +54,7 @@ const GeneratedLinks: FC<Props> = ({
         setLinks(data.links);
         setLinkArray(data.links);
         setShouldFetch(false);
+        console.log("Links fetched successfully");
       } else {
         setLinks([]);
       }
@@ -63,10 +66,10 @@ const GeneratedLinks: FC<Props> = ({
     }
   };
   useEffect(() => {
-    if (shouldFetch) {
+    if (shouldFetch || fetchDataAgain) {
       fetchLinksData();
     }
-  }, [shouldFetch]);
+  }, [shouldFetch, fetchDataAgain]);
 
   // Call this function whenever you need to refresh the data
 

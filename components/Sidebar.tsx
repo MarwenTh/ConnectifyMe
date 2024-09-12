@@ -25,6 +25,9 @@ export function SidebarMenu({ currentUser }: any) {
   const [tab, setTab] = useState(initialTab);
   const [linksArray, setLinksArray] = useState<ILink[]>([]);
   const [loadingPreview, setLoadingPreview] = useState<boolean>(false);
+  const [fetchDataAgain, setFetchDataAgain] = useState<boolean>(false);
+
+  // console.log(linksArray);
 
   useEffect(() => {
     if (tab) {
@@ -110,6 +113,7 @@ export function SidebarMenu({ currentUser }: any) {
       {tab === "Dashboard" ? (
         <div className="md:flex gap-0 w-full bg-[#f3f3f1]">
           <Dashboard
+            fetchDataAgain={fetchDataAgain}
             currentUser={currentUser}
             linksArray={linksArray}
             setLinksArray={setLinksArray}
@@ -124,7 +128,11 @@ export function SidebarMenu({ currentUser }: any) {
         </div>
       ) : tab === "Appearance" ? (
         <div className="md:flex gap-0 w-full bg-[#f3f3f1]">
-          <Appearance currentUser={currentUser} />
+          <Appearance
+            currentUser={currentUser}
+            fetchDataAgain={fetchDataAgain}
+            setFetchDataAgain={setFetchDataAgain}
+          />
           <ProfilePreview
             currentUser={currentUser}
             links={linksArray}

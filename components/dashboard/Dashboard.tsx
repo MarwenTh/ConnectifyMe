@@ -20,6 +20,7 @@ type Props = {
   setLinksArray: (links: ILink[]) => void;
   loadingPreview: boolean;
   setLoadingPreview: (loading: boolean) => void;
+  fetchDataAgain?: boolean;
 };
 
 const Dashboard: FC<Props> = ({
@@ -28,6 +29,7 @@ const Dashboard: FC<Props> = ({
   loadingPreview,
   setLinksArray,
   setLoadingPreview,
+  fetchDataAgain,
 }) => {
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -242,6 +244,7 @@ const Dashboard: FC<Props> = ({
           </div>
         </div>
         <GeneratedLinks
+          fetchDataAgain={fetchDataAgain}
           currentUser={currentUser}
           modalOpen={modalOpen}
           refreshLinks={refreshLinks}

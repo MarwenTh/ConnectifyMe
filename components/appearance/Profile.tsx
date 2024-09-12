@@ -9,14 +9,24 @@ import axios from "axios";
 
 type Props = {
   currentUser: any;
+  fetchDataAgain: boolean;
+  setFetchDataAgain: (fetchDataAgain: boolean) => void;
 };
 
-const Profile: FC<Props> = ({ currentUser }) => {
+const Profile: FC<Props> = ({
+  currentUser,
+  fetchDataAgain,
+  setFetchDataAgain,
+}) => {
   const [letterCount, setLetterCount] = useState<number | null>(
     currentUser?.bio.length
   );
   const [username, setUsername] = useState<string>(currentUser?.username);
   const [bio, setBio] = useState<string>(currentUser?.bio);
+
+  useEffect(() => {
+    setFetchDataAgain(true);
+  }, []);
 
   const handleBioEnhancement = async () => {
     try {
