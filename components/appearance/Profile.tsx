@@ -5,6 +5,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
+import axios from "axios";
 
 type Props = {
   currentUser: any;
@@ -14,9 +15,23 @@ const Profile: FC<Props> = ({ currentUser }) => {
   const [letterCount, setLetterCount] = useState<number | null>(
     currentUser?.bio.length
   );
-  const [error, setError] = useState<string | null>(null);
   const [username, setUsername] = useState<string>(currentUser?.username);
   const [bio, setBio] = useState<string>(currentUser?.bio);
+
+  const handleBioEnhancement = async () => {
+    try {
+      const response = await axios.post("/api/enhance-bio", { bio });
+
+      if (response.status === 200) {
+        setBio(response.data.enhancedBio);
+        // setLoadingPreview(true);
+      }
+
+      // console.log(response.data);
+    } catch (error) {
+      console.error("Error enhancing bio:", error);
+    }
+  };
 
   return (
     <div className=" w-[65%] overflow-auto">
@@ -58,7 +73,13 @@ const Profile: FC<Props> = ({ currentUser }) => {
 
           <Textarea
             placeholder="Bio"
-            className="bg-white resize-none"
+            className={`bg-white resize-none ${
+              letterCount! >= 80 ? "text-blue-600" : ""
+            } ${
+              letterCount! > 80
+                ? "border-red-500 focus-visible:ring-red-500 animate-shake"
+                : ""
+            }`}
             rows={3}
             maxLength={80}
             value={bio}
@@ -67,27 +88,21 @@ const Profile: FC<Props> = ({ currentUser }) => {
 
               setBio(inputText);
               setLetterCount(inputText.length);
-
-              if (inputText.length >= 81) {
-                setError(
-                  "Bio cannot exceed 80 characters. You can't type more."
-                );
-              } else {
-                setError("");
-              }
             }}
           />
-          <div className=" flex justify-between flex-row-reverse">
+          <div className=" flex justify-between items-center flex-row-reverse">
             <p
               className={`text-xs ${letterCount! >= 80 ? "text-blue-600" : ""}`}
             >
               {letterCount} / 80
             </p>
-            {error && <p className="text-blue-600 text-xs">{error}</p>}
+            <div
+              onClick={handleBioEnhancement}
+              className=" text-xs h-fit text-right cursor-pointer w-fit bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 bg-clip-text text-transparent rounded-full font-bold"
+            >
+              Enhance your bio with AI
+            </div>
           </div>
-          <p className=" text-xs h-fit text-right cursor-pointer w-fit bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent rounded-full py-3 font-bold">
-            Enhance your bio with AI
-          </p>
         </div>
       </div>
     </div>
