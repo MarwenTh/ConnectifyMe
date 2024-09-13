@@ -44,7 +44,7 @@ const GeneratedLinks: FC<Props> = ({
   const [editTitleIndex, setEditTitleIndex] = useState<number | null>(null);
   const [editLinkIndex, setEditLinkIndex] = useState<number | null>(null);
 
-  const fetchLinksData = async () => {
+  const fetchData = async () => {
     try {
       setLoading(true);
       setLoadingPreview(true);
@@ -54,7 +54,7 @@ const GeneratedLinks: FC<Props> = ({
         setLinks(data.links);
         setLinkArray(data.links);
         setShouldFetch(false);
-        console.log("Links fetched successfully");
+        console.log("Links fetched successfully", data);
       } else {
         setLinks([]);
       }
@@ -66,10 +66,10 @@ const GeneratedLinks: FC<Props> = ({
     }
   };
   useEffect(() => {
-    if (shouldFetch || fetchDataAgain) {
-      fetchLinksData();
+    if (shouldFetch) {
+      fetchData();
     }
-  }, [shouldFetch, fetchDataAgain]);
+  }, [shouldFetch]);
 
   // Call this function whenever you need to refresh the data
 

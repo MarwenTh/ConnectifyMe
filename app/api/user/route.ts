@@ -32,10 +32,10 @@ export async function GET(request: Request) {
       user: {
         email: user.email,
         username: user.username,
-        bio: user.bio,
         image: user.image,
       },
       page: {
+        bio: page.bio,
         links: page.links,
       },
     });

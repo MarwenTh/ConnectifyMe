@@ -12,7 +12,6 @@ const UserSchema = new Schema(
         "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y",
     },
     page: { type: Schema.Types.ObjectId, ref: "Page" },
-    bio: { type: String, default: "Hey there! I'm using ConnectifyMe" },
   },
   { timestamps: true }
 );

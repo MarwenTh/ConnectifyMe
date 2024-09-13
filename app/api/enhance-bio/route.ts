@@ -1,4 +1,5 @@
 import { getUserData } from "@/lib/actions/getUser";
+import Page from "@/lib/database/models/page.model";
 import User from "@/lib/database/models/user.model";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextResponse } from "next/server";
@@ -29,8 +30,8 @@ export async function POST(request: Request) {
       // Extract the enhanced content from the result
       const enhancedBio = await result.response.text();
 
-      const newBio = await User.updateOne(
-        { _id: currentUser?.id },
+      const newBio = await Page.updateOne(
+        { owner: currentUser?.id },
         { bio: enhancedBio }
       );
       // Send the enhanced bio back to the frontend
