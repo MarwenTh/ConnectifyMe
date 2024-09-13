@@ -20,7 +20,7 @@ type Props = {
   setLinkArray: (linkArray: ILink[]) => void;
   loadingPreview: boolean;
   setLoadingPreview: (loading: boolean) => void;
-  fetchDataAgain?: boolean;
+  linksArray: ILink[];
 };
 
 const GeneratedLinks: FC<Props> = ({
@@ -33,43 +33,15 @@ const GeneratedLinks: FC<Props> = ({
   setLinkArray,
   loadingPreview,
   setLoadingPreview,
-  fetchDataAgain,
+  linksArray,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [links, setLinks] = useState<ILink[] | null>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   const [link, setLink] = useState<string | null>(null);
   const [title, setTitle] = useState<string | null>(null);
   const [editTitleIndex, setEditTitleIndex] = useState<number | null>(null);
   const [editLinkIndex, setEditLinkIndex] = useState<number | null>(null);
-
-  const fetchData = async () => {
-    try {
-      setLoading(true);
-      setLoadingPreview(true);
-      const response = await axios.get("/api/page");
-      if (response.status === 200) {
-        const data = response.data;
-        setLinks(data.links);
-        setLinkArray(data.links);
-        setShouldFetch(false);
-        console.log("Links fetched successfully", data);
-      } else {
-        setLinks([]);
-      }
-    } catch (error) {
-      console.error("Error fetching links:", error);
-    } finally {
-      setLoading(false);
-      setLoadingPreview(false);
-    }
-  };
-  useEffect(() => {
-    if (shouldFetch) {
-      fetchData();
-    }
-  }, [shouldFetch]);
 
   // Call this function whenever you need to refresh the data
 
@@ -121,7 +93,7 @@ const GeneratedLinks: FC<Props> = ({
       className=" w-full mb-10 md:mb-0"
     >
       <AnimatePresence>
-        {links?.length === 0 ? (
+        {linksArray?.length === 0 ? (
           <div
             className={`flex justify-center w-full flex-col items-center my-6 animate-pulse ${
               modalOpen ? "blur-sm" : ""
@@ -137,7 +109,7 @@ const GeneratedLinks: FC<Props> = ({
             </div>
           </div>
         ) : (
-          links
+          linksArray
             ?.slice()
             ?.reverse()
             ?.map((link: any, idx: number) => {

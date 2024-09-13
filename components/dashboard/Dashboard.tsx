@@ -16,11 +16,15 @@ import ProfilePreview from "../ProfilePreview";
 
 type Props = {
   currentUser: any;
-  linksArray: ILink[];
-  setLinksArray: (links: ILink[]) => void;
   loadingPreview: boolean;
   setLoadingPreview: (loading: boolean) => void;
-  fetchDataAgain?: boolean;
+  linksArray: ILink[];
+  setLinksArray: (links: ILink[]) => void;
+  loading: boolean;
+  setLoading: (loading: boolean) => void;
+  data: any;
+  shouldFetch: boolean;
+  setShouldFetch: (fetch: boolean) => void;
 };
 
 const Dashboard: FC<Props> = ({
@@ -29,7 +33,11 @@ const Dashboard: FC<Props> = ({
   loadingPreview,
   setLinksArray,
   setLoadingPreview,
-  fetchDataAgain,
+  loading,
+  setLoading,
+  data,
+  shouldFetch,
+  setShouldFetch,
 }) => {
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -37,8 +45,6 @@ const Dashboard: FC<Props> = ({
   const [link, setLink] = useState("");
   const [isLinkValid, setIsLinkValid] = useState(false);
   const [search, setSearch] = useState("");
-  const [shouldFetch, setShouldFetch] = useState(true);
-  const [loading, setLoading] = useState<boolean>(false);
   const socialIcons = [
     {
       name: "X",
@@ -244,7 +250,6 @@ const Dashboard: FC<Props> = ({
           </div>
         </div>
         <GeneratedLinks
-          fetchDataAgain={fetchDataAgain}
           currentUser={currentUser}
           modalOpen={modalOpen}
           refreshLinks={refreshLinks}
@@ -254,6 +259,7 @@ const Dashboard: FC<Props> = ({
           setLinkArray={setLinksArray}
           loadingPreview={loadingPreview}
           setLoadingPreview={setLoadingPreview}
+          linksArray={linksArray}
         />
       </div>
     </div>

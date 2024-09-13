@@ -9,24 +9,22 @@ import axios from "axios";
 
 type Props = {
   currentUser: any;
-  fetchDataAgain: boolean;
-  setFetchDataAgain: (fetchDataAgain: boolean) => void;
+  data: any;
+  shouldFetch: boolean;
+  setShouldFetch: (shouldFetch: boolean) => void;
 };
 
 const Profile: FC<Props> = ({
   currentUser,
-  fetchDataAgain,
-  setFetchDataAgain,
+  data,
+  shouldFetch,
+  setShouldFetch,
 }) => {
   const [letterCount, setLetterCount] = useState<number | null>(
-    currentUser?.bio.length
+    data?.bio.length
   );
   const [username, setUsername] = useState<string>(currentUser?.username);
-  const [bio, setBio] = useState<string>(currentUser?.bio);
-
-  useEffect(() => {
-    setFetchDataAgain(true);
-  }, [fetchDataAgain]);
+  const [bio, setBio] = useState<string>(data?.bio);
 
   const handleBioEnhancement = async () => {
     try {
@@ -42,6 +40,11 @@ const Profile: FC<Props> = ({
       console.error("Error enhancing bio:", error);
     }
   };
+
+  // console.log("data", data);
+  useEffect(() => {
+    setShouldFetch(!shouldFetch);
+  }, []);
 
   return (
     <div className=" w-[65%] overflow-auto">

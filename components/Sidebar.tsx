@@ -16,6 +16,7 @@ import Appearance from "./appearance/Appearance";
 import ProfilePreview from "./ProfilePreview";
 import { ILink } from "@/interfaces";
 import { LuPaintbrush } from "react-icons/lu";
+import axios from "axios";
 
 export function SidebarMenu({ currentUser }: any) {
   const { data: session } = useSession();
@@ -23,11 +24,43 @@ export function SidebarMenu({ currentUser }: any) {
   const params = useSearchParams();
   const initialTab = params.get("tab") || "Dashboard";
   const [tab, setTab] = useState(initialTab);
-  const [linksArray, setLinksArray] = useState<ILink[]>([]);
   const [loadingPreview, setLoadingPreview] = useState<boolean>(false);
-  const [fetchDataAgain, setFetchDataAgain] = useState<boolean>(false);
+
+  const [linksArray, setLinksArray] = useState<ILink[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [data, setData] = useState<any>({});
+  const [shouldFetch, setShouldFetch] = useState<boolean>(true);
 
   // console.log(linksArray);
+
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      setLoadingPreview(true);
+      const response = await axios.get("/api/page");
+      if (response.status === 200) {
+        const data = response.data;
+        // setLinks(data.links);
+        setData(data);
+        setLinksArray(data.links);
+        setShouldFetch(false);
+        console.log("Links fetched successfully", data);
+      }
+      // else {
+      //   setLinks([]);
+      // }
+    } catch (error) {
+      console.error("Error fetching links:", error);
+    } finally {
+      setLoading(false);
+      setLoadingPreview(false);
+    }
+  };
+  useEffect(() => {
+    if (shouldFetch) {
+      fetchData();
+    }
+  }, [shouldFetch]);
 
   useEffect(() => {
     if (tab) {
@@ -35,7 +68,7 @@ export function SidebarMenu({ currentUser }: any) {
     }
   }, [tab]);
 
-  const links = [
+  const sidebarLinks = [
     {
       label: "Dashboard",
       icon: (
@@ -61,6 +94,7 @@ export function SidebarMenu({ currentUser }: any) {
       ),
     },
   ];
+
   const [open, setOpen] = useState(false);
   return (
     <div
@@ -74,7 +108,7 @@ export function SidebarMenu({ currentUser }: any) {
           <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
             {open ? <Logo /> : <LogoIcon />}
             <div className="mt-8 flex flex-col gap-2">
-              {links.map((label, idx) => (
+              {sidebarLinks.map((label, idx) => (
                 <SidebarLink key={idx} link={label} setTab={setTab} />
               ))}
             </div>
@@ -113,12 +147,16 @@ export function SidebarMenu({ currentUser }: any) {
       {tab === "Dashboard" ? (
         <div className="md:flex gap-0 w-full bg-[#f3f3f1]">
           <Dashboard
-            fetchDataAgain={fetchDataAgain}
             currentUser={currentUser}
-            linksArray={linksArray}
             setLinksArray={setLinksArray}
             loadingPreview={loadingPreview}
             setLoadingPreview={setLoadingPreview}
+            linksArray={linksArray}
+            loading={loading}
+            setLoading={setLoading}
+            data={data}
+            shouldFetch={shouldFetch}
+            setShouldFetch={setShouldFetch}
           />
           <ProfilePreview
             currentUser={currentUser}
@@ -130,13 +168,15 @@ export function SidebarMenu({ currentUser }: any) {
         <div className="md:flex gap-0 w-full bg-[#f3f3f1]">
           <Appearance
             currentUser={currentUser}
-            fetchDataAgain={fetchDataAgain}
-            setFetchDataAgain={setFetchDataAgain}
+            data={data}
+            shouldFetch={shouldFetch}
+            setShouldFetch={setShouldFetch}
           />
           <ProfilePreview
             currentUser={currentUser}
             links={linksArray}
             loadingPreview={loadingPreview}
+            data={data}
           />
         </div>
       ) : tab === "Profile" ? (

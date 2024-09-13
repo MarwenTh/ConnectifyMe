@@ -15,6 +15,7 @@ type Props = {
   loadingPreview?: boolean;
   isPublic?: boolean;
   userData?: any;
+  data?: any;
 };
 
 const ProfilePreview: FC<Props> = ({
@@ -23,6 +24,7 @@ const ProfilePreview: FC<Props> = ({
   loadingPreview,
   isPublic,
   userData,
+  data,
 }) => {
   const user = currentUser;
   const pathname = usePathname();
@@ -83,7 +85,7 @@ const ProfilePreview: FC<Props> = ({
               @{!isPublic ? user?.username : userData?.username}
             </p>
             <span className=" text-xs text-center w-64 mb-5">
-              {!isPublic ? user?.bio : userData?.bio}
+              {!isPublic ? data?.bio : userData?.bio}
             </span>
           </div>
           <div className=" flex flex-col space-y-3 w-full px-10 mb-2">
