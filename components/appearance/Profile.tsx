@@ -26,7 +26,7 @@ const Profile: FC<Props> = ({
 
   useEffect(() => {
     setFetchDataAgain(true);
-  }, []);
+  }, [fetchDataAgain]);
 
   const handleBioEnhancement = async () => {
     try {
