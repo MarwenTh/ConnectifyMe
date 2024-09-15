@@ -56,17 +56,19 @@ export function SidebarMenu({ currentUser }: any) {
       setLoadingPreview(false);
     }
   };
-  useEffect(() => {
-    if (shouldFetch) {
-      fetchData();
-    }
-  }, [shouldFetch]);
 
   useEffect(() => {
     if (tab) {
       router.push(`/dashboard?tab=${tab}`, undefined);
     }
-  }, [tab]);
+
+    // Check if data is empty (e.g., after a page refresh)
+    // const isDataEmpty = Object.keys(data).length === 0;
+
+    if (shouldFetch) {
+      fetchData();
+    }
+  }, [tab, shouldFetch]);
 
   const sidebarLinks = [
     {
@@ -171,6 +173,8 @@ export function SidebarMenu({ currentUser }: any) {
             data={data}
             shouldFetch={shouldFetch}
             setShouldFetch={setShouldFetch}
+            loading={loading}
+            loadingPreview={loadingPreview}
           />
           <ProfilePreview
             currentUser={currentUser}

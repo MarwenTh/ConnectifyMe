@@ -12,6 +12,7 @@ type Props = {
   data: any;
   shouldFetch: boolean;
   setShouldFetch: (shouldFetch: boolean) => void;
+  loading: boolean;
 };
 
 const Profile: FC<Props> = ({
@@ -19,12 +20,11 @@ const Profile: FC<Props> = ({
   data,
   shouldFetch,
   setShouldFetch,
+  loading,
 }) => {
-  const [letterCount, setLetterCount] = useState<number | null>(
-    data?.bio.length
-  );
-  const [username, setUsername] = useState<string>(currentUser?.username);
-  const [bio, setBio] = useState<string>(data?.bio);
+  const [letterCount, setLetterCount] = useState<number | null>(0);
+  const [username, setUsername] = useState<string>("");
+  const [bio, setBio] = useState<string>("");
 
   const handleBioEnhancement = async () => {
     try {
@@ -32,19 +32,23 @@ const Profile: FC<Props> = ({
 
       if (response.status === 200) {
         setBio(response.data.enhancedBio);
-        // setLoadingPreview(true);
+        setLetterCount(response.data.enhancedBio.length);
       }
-
-      // console.log(response.data);
     } catch (error) {
       console.error("Error enhancing bio:", error);
     }
   };
 
-  // console.log("data", data);
+  console.log("data", data.bio);
   useEffect(() => {
-    setShouldFetch(!shouldFetch);
-  }, []);
+    if (data && data.bio) {
+      setBio(data?.bio);
+      setLetterCount(data?.bio?.length);
+    }
+    if (currentUser && currentUser.username) {
+      setUsername(currentUser.username);
+    }
+  }, [data, currentUser]);
 
   return (
     <div className=" w-[65%] overflow-auto">
