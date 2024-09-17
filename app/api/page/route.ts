@@ -69,13 +69,14 @@ export async function GET(request: Request) {
 
     // if there's no page for the user, create one
     if (!page) {
-      const newPage = await Page.create({ owner: currentUser.id });
-      await User.findByIdAndUpdate(
-        currentUser.id,
-        { page: newPage.id },
-        { new: true }
-      );
-      return NextResponse.json(newPage);
+      const newPage = await Page.create({
+        owner: currentUser.id,
+        username: currentUser.username,
+        image: currentUser.image
+          ? currentUser.image
+          : "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y",
+      });
+      // return NextResponse.json(newPage);
     }
 
     return NextResponse.json(page);

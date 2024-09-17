@@ -19,7 +19,7 @@ const UserPage: FC<Props> = ({ params }) => {
       const response = await axios.get(`/api/user?username=${username}`);
       if (response.status === 200) {
         // console.log("User data fetched successfully", response.data);
-        setUserData(response.data.user);
+        setUserData(response.data.page);
         setLinks(response.data.page.links);
       }
     } catch (error) {

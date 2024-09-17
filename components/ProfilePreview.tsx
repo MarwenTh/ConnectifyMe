@@ -49,6 +49,7 @@ const ProfilePreview: FC<Props> = ({
   ];
 
   // console.log("userData", userData!);
+  // console.log("data", userData);
 
   return (
     <div
@@ -71,18 +72,14 @@ const ProfilePreview: FC<Props> = ({
         <div className={`w-full  `}>
           <div className="flex flex-col items-center pt-14">
             <Image
-              src={
-                !isPublic
-                  ? (user?.image as string)
-                  : (userData?.image as string)
-              }
+              src={!isPublic ? data?.image : userData?.image}
               alt="profile"
               width={90}
               height={90}
               className="rounded-full "
             />
             <p className=" font-extrabold font-Merienda my-2 text-base">
-              @{!isPublic ? user?.username : userData?.username}
+              @{!isPublic ? data?.username : userData?.username}
             </p>
             <span className=" text-xs text-center w-64 mb-5">
               {!isPublic ? data?.bio : userData?.bio}

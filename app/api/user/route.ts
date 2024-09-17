@@ -35,6 +35,8 @@ export async function GET(request: Request) {
         image: user.image,
       },
       page: {
+        username: page.username,
+        image: page.image,
         bio: page.bio,
         links: page.links,
       },

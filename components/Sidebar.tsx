@@ -97,6 +97,8 @@ export function SidebarMenu({ currentUser }: any) {
     },
   ];
 
+  // console.log(data);
+
   const [open, setOpen] = useState(false);
   return (
     <div
@@ -164,6 +166,7 @@ export function SidebarMenu({ currentUser }: any) {
             currentUser={currentUser}
             links={linksArray}
             loadingPreview={loadingPreview}
+            data={data}
           />
         </div>
       ) : tab === "Appearance" ? (
