@@ -17,6 +17,7 @@ import ProfilePreview from "./ProfilePreview";
 import { ILink } from "@/interfaces";
 import { LuPaintbrush } from "react-icons/lu";
 import axios from "axios";
+import { PropagateLoader } from "react-spinners";
 
 export function SidebarMenu({ currentUser }: any) {
   const { data: session } = useSession();
@@ -44,7 +45,7 @@ export function SidebarMenu({ currentUser }: any) {
         setData(data);
         setLinksArray(data.links);
         setShouldFetch(false);
-        console.log("Links fetched successfully", data);
+        // console.log("Links fetched successfully", data);
       }
       // else {
       //   setLinks([]);
@@ -178,6 +179,7 @@ export function SidebarMenu({ currentUser }: any) {
             setShouldFetch={setShouldFetch}
             loading={loading}
             loadingPreview={loadingPreview}
+            setLoadingPreview={setLoadingPreview}
           />
           <ProfilePreview
             currentUser={currentUser}

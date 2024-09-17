@@ -13,6 +13,8 @@ type Props = {
   shouldFetch: boolean;
   setShouldFetch: (shouldFetch: boolean) => void;
   loading: boolean;
+  loadingPreview: boolean;
+  setLoadingPreview?: (loadingPreview: boolean) => void;
 };
 
 const Profile: FC<Props> = ({
@@ -21,12 +23,15 @@ const Profile: FC<Props> = ({
   shouldFetch,
   setShouldFetch,
   loading,
+  loadingPreview,
+  setLoadingPreview,
 }) => {
   const [letterCount, setLetterCount] = useState<number | null>(0);
   const [username, setUsername] = useState<string>("");
   const [bio, setBio] = useState<string>("");
 
   const handleBioEnhancement = async () => {
+    setLoadingPreview!(true);
     try {
       const response = await axios.post("/api/enhance-bio", { bio });
 
@@ -36,17 +41,17 @@ const Profile: FC<Props> = ({
       }
     } catch (error) {
       console.error("Error enhancing bio:", error);
+    } finally {
+      setLoadingPreview!(false);
     }
   };
 
-  console.log("data", data.bio);
+  // console.log("data", data.bio);
   useEffect(() => {
     if (data && data.bio) {
       setBio(data?.bio);
       setLetterCount(data?.bio?.length);
-    }
-    if (currentUser && currentUser.username) {
-      setUsername(currentUser.username);
+      setUsername(data?.username);
     }
   }, [data, currentUser]);
 
@@ -56,7 +61,7 @@ const Profile: FC<Props> = ({
       <div className=" border border-red-500 p-6 rounded-3xl w-full shadow-lg">
         <div className=" flex flex-row justify-center items-center space-x-8 w-full ">
           <Image
-            src={currentUser?.image as string}
+            src={data?.image as string}
             width={90}
             height={90}
             alt="Avatar"

@@ -9,6 +9,7 @@ type Props = {
   setShouldFetch: (shouldFetch: boolean) => void;
   loading: boolean;
   loadingPreview: boolean;
+  setLoadingPreview?: (loadingPreview: boolean) => void;
 };
 
 const Appearance: FC<Props> = ({
@@ -18,10 +19,8 @@ const Appearance: FC<Props> = ({
   setShouldFetch,
   loading,
   loadingPreview,
+  setLoadingPreview,
 }) => {
-  if (loadingPreview) {
-    return <div>Loading...</div>;
-  }
   return (
     <div className="md:col-span-3 overflow-auto h-screen lg:w-[60%] scrollbar-thumb-slate-500 scrollbar-track-transparent scrollbar-thin scrollbar-corner-violet-800">
       <div className=" flex flex-col justify-center items-center">
@@ -31,6 +30,8 @@ const Appearance: FC<Props> = ({
           shouldFetch={shouldFetch}
           setShouldFetch={setShouldFetch}
           loading={loading}
+          loadingPreview={loadingPreview}
+          setLoadingPreview={setLoadingPreview}
         />
       </div>
     </div>

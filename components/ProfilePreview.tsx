@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { Button } from "./ui/button";
 import { FcBrokenLink } from "react-icons/fc";
 import Link from "next/link";
@@ -47,9 +47,6 @@ const ProfilePreview: FC<Props> = ({
       color: "bg-gradient-to-r from-[#ff0000] to-[#282828]",
     },
   ];
-
-  // console.log("userData", userData!);
-  // console.log("data", userData);
 
   return (
     <div
