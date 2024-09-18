@@ -11,7 +11,6 @@ import { Logo } from "./Logo";
 import { LogoIcon } from "./LogoIcon";
 import { IoLogOut } from "react-icons/io5";
 import Dashboard from "./dashboard/Dashboard";
-import { RiFontSize } from "react-icons/ri";
 import Appearance from "./appearance/Appearance";
 import ProfilePreview from "./ProfilePreview";
 import { ILink } from "@/interfaces";
