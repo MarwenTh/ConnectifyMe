@@ -88,3 +88,49 @@ export async function GET(request: Request) {
     );
   }
 }
+
+export async function PUT(request: Request) {
+  try {
+    const currentUser = await getUserData();
+    if (!currentUser) {
+      return NextResponse.json(
+        { error: "User not authenticated" },
+        { status: 401 }
+      );
+    }
+
+    const { username, bio } = await request.json();
+
+    let page = await Page.findOne({ owner: currentUser.id });
+
+    if (username) {
+      const existingPage = await Page.findOne({
+        username,
+        _id: { $ne: page._id },
+      });
+      if (existingPage) {
+        return NextResponse.json(
+          { error: "Username is already taken by another user." },
+          { status: 409 } // Conflict status code
+        );
+      }
+      page = await Page.findByIdAndUpdate(
+        page._id,
+        { username },
+        { new: true }
+      );
+    } else if (bio) {
+      page = await Page.findByIdAndUpdate(page._id, { bio }, { new: true });
+    } else {
+      return NextResponse.json({ error: "Invalid data" }, { status: 400 });
+    }
+
+    return NextResponse.json(page);
+  } catch (error) {
+    console.error("Error updating page:", error);
+    return NextResponse.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
+  }
+}

@@ -23,9 +23,13 @@ const Profile: FC<Props> = ({
   const [letterCount, setLetterCount] = useState<number | null>(0);
   const [username, setUsername] = useState<string>("");
   const [bio, setBio] = useState<string>("");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleBioEnhancement = async () => {
+    setError(null);
     setLoadingPreview!(true);
+    setLoading(true);
     try {
       const response = await axios.post("/api/enhance-bio", { bio });
 
@@ -34,10 +38,12 @@ const Profile: FC<Props> = ({
         setLetterCount(response.data.enhancedBio.length);
         setShouldFetch(true);
       }
-    } catch (error) {
-      console.error("Error enhancing bio:", error);
+    } catch (error: any) {
+      // console.error("Error enhancing bio:", error);
+      setError(error.response.data.error);
     } finally {
       setLoadingPreview!(false);
+      setLoading(false);
     }
   };
 
@@ -81,11 +87,22 @@ const Profile: FC<Props> = ({
             </Button>
           </div>
         </div>
-        <div className=" flex flex-col space-y-3 w-full">
+        <div className=" flex flex-col space-y-3 w-full mt-6 ">
           <Input
             placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            onBlur={async () => {
+              try {
+                const response = await axios.put("/api/page", { username });
+
+                if (response.status === 200) {
+                  setShouldFetch(true); // Triggers a re-fetch if necessary
+                }
+              } catch (error: any) {
+                console.error("Error updating username:", error);
+              }
+            }}
           />
 
           <Textarea
@@ -93,7 +110,7 @@ const Profile: FC<Props> = ({
             className={`bg-white resize-none ${
               letterCount! >= 80 ? "text-blue-600" : ""
             } ${
-              letterCount! > 80
+              letterCount! > 80 || error
                 ? "border-red-500 focus-visible:ring-red-500 animate-shake"
                 : ""
             }`}
@@ -106,6 +123,17 @@ const Profile: FC<Props> = ({
               setBio(inputText);
               setLetterCount(inputText.length);
             }}
+            onBlur={async () => {
+              try {
+                const response = await axios.put("/api/page", { bio });
+
+                if (response.status === 200) {
+                  setShouldFetch(true); // Triggers a re-fetch if necessary
+                }
+              } catch (error: any) {
+                console.error("Error updating bio:", error);
+              }
+            }}
           />
           <div className=" flex justify-between items-center flex-row-reverse">
             <p
@@ -113,11 +141,12 @@ const Profile: FC<Props> = ({
             >
               {letterCount} / 80
             </p>
+            {error && <p className=" text-red-500 text-xs">{error}</p>}
             <div
               onClick={handleBioEnhancement}
               className=" text-xs h-fit text-right cursor-pointer w-fit bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 bg-clip-text text-transparent rounded-full font-bold"
             >
-              Enhance your bio with AI
+              {loading ? "Enhancing..." : "Enhance your bio with AI"}
             </div>
           </div>
         </div>

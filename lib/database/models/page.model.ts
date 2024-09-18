@@ -14,7 +14,11 @@ const PageSchema = new Schema(
     // bgType: { type: String, default: "color" }, // Either "color" or "image"
     // bgColor: { type: String, default: "#000" }, // Background color
     // bgImage: { type: String, default: "" }, // Background image URL
-    bio: { type: String, default: "Hey there! I'm using ConnectifyMe" },
+    bio: {
+      type: String,
+      default: "Hey there! I'm using ConnectifyMe",
+      maxlength: 80,
+    }, // User bio
     links: [
       {
         title: { type: String }, // Link title
