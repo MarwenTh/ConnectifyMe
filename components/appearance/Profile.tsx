@@ -96,7 +96,10 @@ const Profile: FC<Props> = ({
             placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            onBlur={async () => {
+            onBlur={async (e: React.ChangeEvent<HTMLInputElement>) => {
+              if (e.target.value === username) {
+                return;
+              }
               try {
                 const response = await axios.put("/api/page", { username });
 
