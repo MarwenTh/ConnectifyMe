@@ -88,7 +88,11 @@ const Profile: FC<Props> = ({
           </div>
         </div>
         <div className=" flex flex-col space-y-3 w-full mt-6 ">
+          <Label htmlFor="username" className=" font-semibold text-xs">
+            Username
+          </Label>
           <Input
+            id="username"
             placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
@@ -105,7 +109,11 @@ const Profile: FC<Props> = ({
             }}
           />
 
+          <Label htmlFor="bio" className=" font-semibold text-xs">
+            bio
+          </Label>
           <Textarea
+            id="bio"
             placeholder="Bio"
             className={`bg-white resize-none ${
               letterCount! >= 80 ? "text-blue-600" : ""
