@@ -10,20 +10,14 @@ import axios from "axios";
 type Props = {
   currentUser: any;
   data: any;
-  shouldFetch: boolean;
   setShouldFetch: (shouldFetch: boolean) => void;
-  loading: boolean;
-  loadingPreview: boolean;
   setLoadingPreview?: (loadingPreview: boolean) => void;
 };
 
 const Profile: FC<Props> = ({
   currentUser,
   data,
-  shouldFetch,
   setShouldFetch,
-  loading,
-  loadingPreview,
   setLoadingPreview,
 }) => {
   const [letterCount, setLetterCount] = useState<number | null>(0);
@@ -38,6 +32,7 @@ const Profile: FC<Props> = ({
       if (response.status === 200) {
         setBio(response.data.enhancedBio);
         setLetterCount(response.data.enhancedBio.length);
+        setShouldFetch(true);
       }
     } catch (error) {
       console.error("Error enhancing bio:", error);

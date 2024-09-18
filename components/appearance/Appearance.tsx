@@ -5,20 +5,15 @@ import Profile from "./Profile";
 type Props = {
   currentUser?: any;
   data: any;
-  shouldFetch: boolean;
   setShouldFetch: (shouldFetch: boolean) => void;
-  loading: boolean;
-  loadingPreview: boolean;
   setLoadingPreview?: (loadingPreview: boolean) => void;
 };
 
 const Appearance: FC<Props> = ({
   currentUser,
   data,
-  shouldFetch,
   setShouldFetch,
-  loading,
-  loadingPreview,
+
   setLoadingPreview,
 }) => {
   return (
@@ -27,10 +22,7 @@ const Appearance: FC<Props> = ({
         <Profile
           currentUser={currentUser}
           data={data}
-          shouldFetch={shouldFetch}
           setShouldFetch={setShouldFetch}
-          loading={loading}
-          loadingPreview={loadingPreview}
           setLoadingPreview={setLoadingPreview}
         />
       </div>

@@ -175,10 +175,7 @@ export function SidebarMenu({ currentUser }: any) {
           <Appearance
             currentUser={currentUser}
             data={data}
-            shouldFetch={shouldFetch}
             setShouldFetch={setShouldFetch}
-            loading={loading}
-            loadingPreview={loadingPreview}
             setLoadingPreview={setLoadingPreview}
           />
           <ProfilePreview
