@@ -16,27 +16,17 @@ import ProfilePreview from "../ProfilePreview";
 
 type Props = {
   currentUser: any;
-  loadingPreview: boolean;
-  setLoadingPreview: (loading: boolean) => void;
   linksArray: ILink[];
-  setLinksArray: (links: ILink[]) => void;
   loading: boolean;
   setLoading: (loading: boolean) => void;
-  data: any;
-  shouldFetch: boolean;
   setShouldFetch: (fetch: boolean) => void;
 };
 
 const Dashboard: FC<Props> = ({
   currentUser,
   linksArray,
-  loadingPreview,
-  setLinksArray,
-  setLoadingPreview,
   loading,
   setLoading,
-  data,
-  shouldFetch,
   setShouldFetch,
 }) => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -250,15 +240,8 @@ const Dashboard: FC<Props> = ({
           </div>
         </div>
         <GeneratedLinks
-          currentUser={currentUser}
           modalOpen={modalOpen}
           refreshLinks={refreshLinks}
-          setShouldFetch={setShouldFetch}
-          shouldFetch={shouldFetch}
-          linkArray={linksArray}
-          setLinkArray={setLinksArray}
-          loadingPreview={loadingPreview}
-          setLoadingPreview={setLoadingPreview}
           linksArray={linksArray}
         />
       </div>

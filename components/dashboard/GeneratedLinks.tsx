@@ -11,30 +11,12 @@ import { FcLink } from "react-icons/fc";
 import { AnimatePresence, motion } from "framer-motion";
 
 type Props = {
-  currentUser: any;
   modalOpen: boolean;
-  setShouldFetch: (shouldFetch: boolean) => void;
-  shouldFetch: boolean;
   refreshLinks: () => void;
-  linkArray: ILink[];
-  setLinkArray: (linkArray: ILink[]) => void;
-  loadingPreview: boolean;
-  setLoadingPreview: (loading: boolean) => void;
   linksArray: ILink[];
 };
 
-const GeneratedLinks: FC<Props> = ({
-  currentUser,
-  modalOpen,
-  setShouldFetch,
-  shouldFetch,
-  refreshLinks,
-  linkArray,
-  setLinkArray,
-  loadingPreview,
-  setLoadingPreview,
-  linksArray,
-}) => {
+const GeneratedLinks: FC<Props> = ({ modalOpen, refreshLinks, linksArray }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
 

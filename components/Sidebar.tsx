@@ -153,14 +153,9 @@ export function SidebarMenu({ currentUser }: any) {
         <div className="md:flex gap-0 w-full bg-[#f3f3f1]">
           <Dashboard
             currentUser={currentUser}
-            setLinksArray={setLinksArray}
-            loadingPreview={loadingPreview}
-            setLoadingPreview={setLoadingPreview}
             linksArray={linksArray}
             loading={loading}
             setLoading={setLoading}
-            data={data}
-            shouldFetch={shouldFetch}
             setShouldFetch={setShouldFetch}
           />
           <ProfilePreview
