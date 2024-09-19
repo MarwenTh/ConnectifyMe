@@ -26,7 +26,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     },
     {
       label: "Appearance",
-      href: "/admin/profile",
+      href: "/admin/appearance",
       icon: (
         <LuPaintbrush className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
@@ -67,7 +67,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           <div>
             <SidebarLink
               link={{
-                label: "Manu Arora",
+                label: session?.user?.name as string,
                 href: "#",
                 icon: (
                   <Image

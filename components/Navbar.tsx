@@ -41,7 +41,7 @@ const Navbar = (props: Props) => {
       </nav> */}
       <div className="flex gap-x-4 ">
         {session ? (
-          <Link href="/dashboard" className="text-sm font-medium">
+          <Link href="/admin/dashboard" className="text-sm font-medium">
             <Image
               src={session?.user?.image as string}
               alt="user profile"
