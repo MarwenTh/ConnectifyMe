@@ -6,28 +6,15 @@ import { Button } from "../ui/button";
 import { FaTimes } from "react-icons/fa";
 
 type Props = {
-  currentUser?: any;
   data: any;
   setShouldFetch: (shouldFetch: boolean) => void;
-  setLoadingPreview?: (loadingPreview: boolean) => void;
 };
 
-const Appearance: FC<Props> = ({
-  currentUser,
-  data,
-  setShouldFetch,
-
-  setLoadingPreview,
-}) => {
+const Appearance: FC<Props> = ({ data, setShouldFetch }) => {
   return (
     <div className="md:col-span-3 overflow-auto h-screen lg:w-[60%] scrollbar-thumb-slate-500 scrollbar-track-transparent scrollbar-thin scrollbar-corner-violet-800">
       <div className=" flex flex-col justify-center items-center">
-        <Profile
-          currentUser={currentUser}
-          data={data}
-          setShouldFetch={setShouldFetch}
-          setLoadingPreview={setLoadingPreview}
-        />
+        <Profile data={data} setShouldFetch={setShouldFetch} />
         {/* <div className="bg-[#d1f537] p-6 rounded-xl max-w-4xl mx-auto flex flex-col md:flex-row items-center">
           <button className="absolute top-2 right-2 text-gray-600 hover:text-gray-800">
             <FaTimes size={24} />

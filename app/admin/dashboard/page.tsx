@@ -64,12 +64,7 @@ const page = (props: Props) => {
         setShouldFetch={setShouldFetch}
         data={data}
       />
-      <ProfilePreview
-        // currentUser={currentUser}
-        links={linksArray}
-        loading={loading}
-        data={data}
-      />
+      <ProfilePreview links={linksArray} loading={loading} data={data} />
     </div>
   );
 };

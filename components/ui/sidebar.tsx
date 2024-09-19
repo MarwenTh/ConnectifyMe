@@ -8,6 +8,7 @@ import { FaXmark } from "react-icons/fa6";
 
 interface Links {
   label: string;
+  href: string;
   icon: React.JSX.Element | React.ReactNode;
 }
 
@@ -89,7 +90,7 @@ export const DesktopSidebar = ({
     <>
       <motion.div
         className={cn(
-          "h-full px-4 py-4 hidden  md:flex md:flex-col bg-white dark:bg-neutral-800 w-[300px] flex-shrink-0 border-r border-neutral-200 rounded-tr-rounded-br-2xl rounded-br-2xl dark:border-neutral-700 overflow-hidden",
+          "h-full px-4 py-4 hidden  md:flex md:flex-col bg-neutral-100 dark:bg-neutral-800 w-[300px] flex-shrink-0",
           className
         )}
         animate={{
@@ -158,21 +159,18 @@ export const MobileSidebar = ({
 export const SidebarLink = ({
   link,
   className,
-  setTab,
   ...props
 }: {
   link: Links;
   className?: string;
-  setTab: (tab: string) => void;
   props?: LinkProps;
 }) => {
   const { open, animate } = useSidebar();
   return (
-    <div
-      // href={link.href}
-      onClick={() => setTab(link.label)}
+    <Link
+      href={link.href}
       className={cn(
-        "flex items-center justify-start gap-2  group/sidebar py-2 cursor-pointer",
+        "flex items-center justify-start gap-2  group/sidebar py-2",
         className
       )}
       {...props}
@@ -188,6 +186,6 @@ export const SidebarLink = ({
       >
         {link.label}
       </motion.span>
-    </div>
+    </Link>
   );
 };

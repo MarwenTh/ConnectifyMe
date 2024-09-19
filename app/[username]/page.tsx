@@ -58,12 +58,8 @@ const UserPage: FC<Props> = ({ params }) => {
 
   return (
     <div>
-      {userData ? (
+      {userData && (
         <ProfilePreview links={links} userData={userData} isPublic={true} />
-      ) : (
-        <div className="h-screen grid place-items-center bg-[#eee]">
-          <h1 className="text-2xl text-[#343434]">User not found</h1>
-        </div>
       )}
     </div>
   );

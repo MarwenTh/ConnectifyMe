@@ -8,28 +8,20 @@ import { Textarea } from "../ui/textarea";
 import axios from "axios";
 
 type Props = {
-  currentUser: any;
   data: any;
   setShouldFetch: (shouldFetch: boolean) => void;
-  setLoadingPreview?: (loadingPreview: boolean) => void;
 };
 
-const Profile: FC<Props> = ({
-  currentUser,
-  data,
-  setShouldFetch,
-  setLoadingPreview,
-}) => {
+const Profile: FC<Props> = ({ data, setShouldFetch }) => {
   const [letterCount, setLetterCount] = useState<number | null>(0);
   const [username, setUsername] = useState<string>("");
   const [bio, setBio] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [enhancementLoading, setEnhancementLoading] = useState<boolean>(false);
 
   const handleBioEnhancement = async () => {
     setError(null);
-    setLoadingPreview!(true);
-    setLoading(true);
+    setEnhancementLoading(true);
     try {
       const response = await axios.post("/api/enhance-bio", { bio });
 
@@ -42,8 +34,7 @@ const Profile: FC<Props> = ({
       // console.error("Error enhancing bio:", error);
       setError(error.response.data.error);
     } finally {
-      setLoadingPreview!(false);
-      setLoading(false);
+      setEnhancementLoading(false);
     }
   };
 
@@ -54,7 +45,7 @@ const Profile: FC<Props> = ({
       setLetterCount(data?.bio?.length);
       setUsername(data?.username);
     }
-  }, [data, currentUser]);
+  }, [data]);
 
   return (
     <div className=" w-[65%] overflow-auto">
@@ -97,9 +88,9 @@ const Profile: FC<Props> = ({
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             onBlur={async (e: React.ChangeEvent<HTMLInputElement>) => {
-              if (e.target.value === username) {
-                return;
-              }
+              // if (e.target.value === username) {
+              //   return;
+              // }
               try {
                 const response = await axios.put("/api/page", { username });
 
@@ -157,7 +148,7 @@ const Profile: FC<Props> = ({
               onClick={handleBioEnhancement}
               className=" text-xs h-fit text-right cursor-pointer w-fit bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 bg-clip-text text-transparent rounded-full font-bold"
             >
-              {loading ? "Enhancing..." : "Enhance your bio with AI"}
+              {enhancementLoading ? "Enhancing..." : "Enhance your bio with AI"}
             </div>
           </div>
         </div>

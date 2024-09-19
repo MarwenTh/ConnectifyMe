@@ -10,11 +10,7 @@ import { FaGear } from "react-icons/fa6";
 import { Logo } from "../../components/Logo";
 import { LogoIcon } from "../../components/LogoIcon";
 import { useSession } from "next-auth/react";
-import {
-  Sidebar,
-  SidebarBody,
-  SidebarLink,
-} from "../../components/ui/dashboardSidebar";
+import { Sidebar, SidebarBody, SidebarLink } from "../../components/ui/sidebar";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { data: session } = useSession();
@@ -23,28 +19,28 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const links = [
     {
       label: "Dashboard",
-      href: "/sidebar/dashboard",
+      href: "/admin/dashboard",
       icon: (
         <TbBrandTabler className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {
       label: "Appearance",
-      href: "/sidebar/profile",
+      href: "/admin/profile",
       icon: (
         <LuPaintbrush className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {
       label: "Profile",
-      href: "/sidebar/profile",
+      href: "/admin/profile",
       icon: (
         <TbUserBolt className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {
       label: "Settings",
-      href: "/sidebar/settings",
+      href: "/admin/settings",
       icon: (
         <FaGear className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
