@@ -16,7 +16,7 @@ import ProfilePreview from "../ProfilePreview";
 
 type Props = {
   currentUser: any;
-  linksArray: ILink[];
+  data: any;
   loading: boolean;
   setLoading: (loading: boolean) => void;
   setShouldFetch: (fetch: boolean) => void;
@@ -24,7 +24,7 @@ type Props = {
 
 const Dashboard: FC<Props> = ({
   currentUser,
-  linksArray,
+  data,
   loading,
   setLoading,
   setShouldFetch,
@@ -105,7 +105,7 @@ const Dashboard: FC<Props> = ({
     setShouldFetch(true);
   };
 
-  // console.log("linksArray", linksArray);
+  // console.log("data", data);
 
   return (
     <div className="md:col-span-3 overflow-auto h-screen lg:w-[60%] scrollbar-thumb-slate-500 scrollbar-track-transparent scrollbar-thin scrollbar-corner-violet-800">
@@ -242,7 +242,7 @@ const Dashboard: FC<Props> = ({
         <GeneratedLinks
           modalOpen={modalOpen}
           refreshLinks={refreshLinks}
-          linksArray={linksArray}
+          data={data}
         />
       </div>
     </div>

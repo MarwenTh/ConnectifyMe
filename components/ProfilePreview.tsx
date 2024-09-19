@@ -130,7 +130,11 @@ const ProfilePreview: FC<Props> = ({
               target="_blank"
               className="font-Poppins bg-neutral-900 text-neutral-50 shadow hover:bg-neutral-900/90 dark:bg-neutral-50 dark:text-neutral-900 dark:hover:bg-neutral-50/90 px-5 text-sm font-semibold py-2 rounded-full flex items-center space-x-2 sticky bottom-0 mt-10 mb-3"
             >
-              <span>Join {userData.username} on ConnectifyMe</span>
+              <span>
+                Join
+                {/* {userData.username}  */}
+                on ConnectifyMe
+              </span>
               <FcBrokenLink size={25} className=" flex-shrink-0" />
             </Link>
           )}

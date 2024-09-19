@@ -13,10 +13,10 @@ import { AnimatePresence, motion } from "framer-motion";
 type Props = {
   modalOpen: boolean;
   refreshLinks: () => void;
-  linksArray: ILink[];
+  data: any;
 };
 
-const GeneratedLinks: FC<Props> = ({ modalOpen, refreshLinks, linksArray }) => {
+const GeneratedLinks: FC<Props> = ({ modalOpen, refreshLinks, data }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -24,6 +24,7 @@ const GeneratedLinks: FC<Props> = ({ modalOpen, refreshLinks, linksArray }) => {
   const [title, setTitle] = useState<string | null>(null);
   const [editTitleIndex, setEditTitleIndex] = useState<number | null>(null);
   const [editLinkIndex, setEditLinkIndex] = useState<number | null>(null);
+  // const [linksArray, setLinksArray] = useState<ILink[]>(data?.links);
 
   // Call this function whenever you need to refresh the data
 
@@ -65,6 +66,7 @@ const GeneratedLinks: FC<Props> = ({ modalOpen, refreshLinks, linksArray }) => {
   // if (loading) {
   //   return <Skeleton count={3} />;
   // }
+  // console.log("data", data);
 
   return (
     <motion.div
@@ -75,7 +77,7 @@ const GeneratedLinks: FC<Props> = ({ modalOpen, refreshLinks, linksArray }) => {
       className=" w-full mb-10 md:mb-0"
     >
       <AnimatePresence>
-        {linksArray?.length === 0 ? (
+        {data?.links?.length === 0 ? (
           <div
             className={`flex justify-center w-full flex-col items-center my-6 animate-pulse ${
               modalOpen ? "blur-sm" : ""
@@ -91,7 +93,7 @@ const GeneratedLinks: FC<Props> = ({ modalOpen, refreshLinks, linksArray }) => {
             </div>
           </div>
         ) : (
-          linksArray
+          data?.links
             ?.slice()
             ?.reverse()
             ?.map((link: any, idx: number) => {
