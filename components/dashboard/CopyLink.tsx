@@ -6,15 +6,14 @@ import { Button } from "../ui/button";
 
 type Props = {
   currentUser: any;
+  data: any;
 };
 
-const CopyLink: FC<Props> = ({ currentUser }) => {
+const CopyLink: FC<Props> = ({ currentUser, data }) => {
   const [isCopied, setIsCopied] = useState(false);
   // console.log(currentUser);
   const handleClick = () => {
-    navigator.clipboard.writeText(
-      `http://localhost:3000/${currentUser?.username}`
-    );
+    navigator.clipboard.writeText(`http://localhost:3000/${data?.username}`);
     setIsCopied(true);
   };
 
@@ -37,9 +36,9 @@ const CopyLink: FC<Props> = ({ currentUser }) => {
         <Link
           target="_blank"
           className=" underline md:text-sm text-blue-900/80 text-xs"
-          href={`http://localhost:3000/${currentUser?.username}`}
+          href={`http://localhost:3000/${data?.username}`}
         >
-          connectify.me/{currentUser?.username}
+          connectify.me/{data?.username}
         </Link>
       </div>
       <div>

@@ -109,7 +109,7 @@ const Dashboard: FC<Props> = ({
 
   return (
     <div className="md:col-span-3 overflow-auto h-screen lg:w-[60%] scrollbar-thumb-slate-500 scrollbar-track-transparent scrollbar-thin scrollbar-corner-violet-800">
-      <CopyLink currentUser={currentUser} />
+      <CopyLink currentUser={currentUser} data={data} />
       <div className=" flex items-center flex-col w-full px-2 md:px-5">
         <div className=" flex justify-center w-full mt-10">
           <div className=" w-full">

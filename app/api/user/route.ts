@@ -12,20 +12,19 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    // Find the user by username
-    const user = await User.findOne({ username: username });
-
-    if (!user) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
-    }
-
-    const page = await Page.findOne({ owner: user._id });
+    //find the username in the Page model
+    const page = await Page.findOne({ username: username });
 
     if (!page) {
       return NextResponse.json({ error: "Page not found" }, { status: 404 });
     }
 
-    // console.log(user.bio);
+    //find the owner of the page
+    const user = await User.findOne({ _id: page.owner });
+
+    if (!user) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
 
     // return user email, username, full name, bio, image, and page links
     return NextResponse.json({

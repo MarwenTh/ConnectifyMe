@@ -4,6 +4,7 @@ import ProfilePreview from "@/components/ProfilePreview";
 import { ILink } from "@/interfaces";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { PropagateLoader } from "react-spinners";
 
 type Props = {};
 
@@ -19,7 +20,7 @@ const page = (props: Props) => {
   const fetchData = async () => {
     try {
       setLoading(true);
-      setLoadingPreview(true);
+      // setLoadingPreview(true);
       const response = await axios.get("/api/page");
       if (response.status === 200) {
         const data = response.data;
@@ -27,7 +28,7 @@ const page = (props: Props) => {
         setData(data);
         setLinksArray(data.links);
         setShouldFetch(false);
-        console.log("Links fetched successfully", data.links);
+        // console.log("Links fetched successfully", data.links);
       }
       // else {
       //   setLinks([]);
@@ -36,7 +37,7 @@ const page = (props: Props) => {
       console.error("Error fetching links:", error);
     } finally {
       setLoading(false);
-      setLoadingPreview(false);
+      // setLoadingPreview(false);
     }
   };
 
@@ -45,6 +46,14 @@ const page = (props: Props) => {
       fetchData();
     }
   }, [shouldFetch]);
+
+  // if (loading) {
+  //   return (
+  //     <div className="h-screen grid place-items-center bg-[#eee]">
+  //       <PropagateLoader speedMultiplier={1} color="#343434" />
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="md:flex gap-0 w-full bg-[#f3f3f1]">
@@ -58,7 +67,7 @@ const page = (props: Props) => {
       <ProfilePreview
         // currentUser={currentUser}
         links={linksArray}
-        loadingPreview={loadingPreview}
+        loading={loading}
         data={data}
       />
     </div>

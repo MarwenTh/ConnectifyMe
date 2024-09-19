@@ -161,7 +161,7 @@ export function SidebarMenu({ currentUser }: any) {
           <ProfilePreview
             currentUser={currentUser}
             links={linksArray}
-            loadingPreview={loadingPreview}
+            loading={loading}
             data={data}
           />
         </div>
@@ -176,7 +176,7 @@ export function SidebarMenu({ currentUser }: any) {
           <ProfilePreview
             currentUser={currentUser}
             links={linksArray}
-            loadingPreview={loadingPreview}
+            loading={loading}
             data={data}
           />
         </div>

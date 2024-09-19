@@ -12,7 +12,7 @@ import { FaSpinner } from "react-icons/fa6";
 type Props = {
   currentUser?: any;
   links: Array<ILink>;
-  loadingPreview?: boolean;
+  loading?: boolean;
   isPublic?: boolean;
   userData?: any;
   data?: any;
@@ -21,7 +21,7 @@ type Props = {
 const ProfilePreview: FC<Props> = ({
   currentUser,
   links,
-  loadingPreview,
+  loading,
   isPublic,
   userData,
   data,
@@ -63,7 +63,7 @@ const ProfilePreview: FC<Props> = ({
             : " flex flex-col items-center w-full lg:w-[35%] h-screen"
         }`}
       >
-        {loadingPreview && (
+        {loading && (
           <FaSpinner className=" animate-spin absolute left-5 top-3" />
         )}
         <div className={`w-full  `}>
@@ -131,9 +131,9 @@ const ProfilePreview: FC<Props> = ({
               className="font-Poppins bg-neutral-900 text-neutral-50 shadow hover:bg-neutral-900/90 dark:bg-neutral-50 dark:text-neutral-900 dark:hover:bg-neutral-50/90 px-5 text-sm font-semibold py-2 rounded-full flex items-center space-x-2 sticky bottom-0 mt-10 mb-3"
             >
               <span>
-                Join
-                {/* {userData.username}  */}
-                on ConnectifyMe
+                {!isPublic
+                  ? `ConnectifyMe`
+                  : `Join ${userData?.username} on ConnectifyMe`}
               </span>
               <FcBrokenLink size={25} className=" flex-shrink-0" />
             </Link>
