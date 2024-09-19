@@ -5,11 +5,10 @@ import { FcBrokenLink } from "react-icons/fc";
 import { Button } from "../ui/button";
 
 type Props = {
-  currentUser: any;
   data: any;
 };
 
-const CopyLink: FC<Props> = ({ currentUser, data }) => {
+const CopyLink: FC<Props> = ({ data }) => {
   const [isCopied, setIsCopied] = useState(false);
   // console.log(currentUser);
   const handleClick = () => {

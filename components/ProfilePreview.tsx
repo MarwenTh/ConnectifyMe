@@ -10,7 +10,6 @@ import { ILink } from "@/interfaces";
 import { FaSpinner } from "react-icons/fa6";
 
 type Props = {
-  currentUser?: any;
   links: Array<ILink>;
   loading?: boolean;
   isPublic?: boolean;
@@ -19,14 +18,12 @@ type Props = {
 };
 
 const ProfilePreview: FC<Props> = ({
-  currentUser,
   links,
   loading,
   isPublic,
   userData,
   data,
 }) => {
-  const user = currentUser;
   const pathname = usePathname();
 
   const stylesVariant = [

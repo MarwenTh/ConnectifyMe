@@ -15,7 +15,6 @@ import GeneratedLinks from "./GeneratedLinks";
 import ProfilePreview from "../ProfilePreview";
 
 type Props = {
-  currentUser: any;
   data: any;
   loading: boolean;
   setLoading: (loading: boolean) => void;
@@ -23,7 +22,6 @@ type Props = {
 };
 
 const Dashboard: FC<Props> = ({
-  currentUser,
   data,
   loading,
   setLoading,
@@ -109,7 +107,7 @@ const Dashboard: FC<Props> = ({
 
   return (
     <div className="md:col-span-3 overflow-auto h-screen lg:w-[60%] scrollbar-thumb-slate-500 scrollbar-track-transparent scrollbar-thin scrollbar-corner-violet-800">
-      <CopyLink currentUser={currentUser} data={data} />
+      <CopyLink data={data} />
       <div className=" flex items-center flex-col w-full px-2 md:px-5">
         <div className=" flex justify-center w-full mt-10">
           <div className=" w-full">
