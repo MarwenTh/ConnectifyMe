@@ -41,6 +41,17 @@ const config = {
           "10%, 30%, 50%, 70%, 90%": { transform: "translateX(-10px)" },
           "20%, 40%, 60%, 80%": { transform: "translateX(10px)" },
         },
+        "shine-pulse": {
+          "0%": {
+            "background-position": "0% 0%",
+          },
+          "50%": {
+            "background-position": "100% 100%",
+          },
+          to: {
+            "background-position": "0% 0%",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",

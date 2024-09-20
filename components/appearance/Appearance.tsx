@@ -15,7 +15,7 @@ const Appearance: FC<Props> = ({ data, setShouldFetch }) => {
     <div className="md:col-span-3 overflow-auto h-screen lg:w-[60%] scrollbar-thumb-slate-500 scrollbar-track-transparent scrollbar-thin scrollbar-corner-violet-800">
       <div className=" flex flex-col justify-center items-center">
         <Profile data={data} setShouldFetch={setShouldFetch} />
-        {/* <div className="bg-[#d1f537] p-6 rounded-xl max-w-4xl mx-auto flex flex-col md:flex-row items-center">
+        <div className="bg-[#d1f537] p-6 rounded-xl max-w-4xl mx-auto flex flex-col md:flex-row items-center">
           <button className="absolute top-2 right-2 text-gray-600 hover:text-gray-800">
             <FaTimes size={24} />
             <span className="sr-only">Close</span>
@@ -56,7 +56,7 @@ const Appearance: FC<Props> = ({ data, setShouldFetch }) => {
               <div className="absolute top-0 left-24 w-40 h-64 bg-blue-300 rounded-xl transform rotate-12"></div>
             </div>
           </div>
-        </div> */}
+        </div>
 
         <div></div>
       </div>

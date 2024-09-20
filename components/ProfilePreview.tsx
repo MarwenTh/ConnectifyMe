@@ -8,6 +8,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ILink } from "@/interfaces";
 import { FaSpinner } from "react-icons/fa6";
+import ShineBorder from "./ui/borderBeam";
 
 type Props = {
   links: Array<ILink>;
@@ -53,13 +54,23 @@ const ProfilePreview: FC<Props> = ({
           : "w-full h-screen overflow-y-auto flex justify-center items-center pb-2 scrollbar-thumb-sky-700 scrollbar-track-transparent scrollbar-thin"
       }`}
     >
-      <div
+      <ShineBorder
+        borderWidth={2}
+        borderRadius={24}
         className={`${
           !isPublic
             ? "relative border h-[85vh] w-96 flex flex-col items-center overflow-y-auto rounded-3xl shadow-2xl scrollbar-thumb-sky-700 scrollbar-track-transparent scrollbar-thin"
             : " flex flex-col items-center w-full lg:w-[35%] h-screen"
         }`}
+        color={["#A07CFE", "#FE8FB5", "#FFBE7B", "#FF8F8F"]}
       >
+        {/* <div
+        // className={`${
+        //   !isPublic
+        //     ? "relative border h-[85vh] w-96 flex flex-col items-center overflow-y-auto rounded-3xl shadow-2xl scrollbar-thumb-sky-700 scrollbar-track-transparent scrollbar-thin"
+        //     : " flex flex-col items-center w-full lg:w-[35%] h-screen"
+        // }`}
+        > */}
         {loading && (
           <FaSpinner className=" animate-spin absolute left-5 top-3" />
         )}
@@ -136,7 +147,8 @@ const ProfilePreview: FC<Props> = ({
             </Link>
           )}
         </div>
-      </div>
+        {/* </div> */}
+      </ShineBorder>
     </div>
   );
 };
