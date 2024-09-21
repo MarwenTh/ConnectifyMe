@@ -9,11 +9,6 @@ const PageSchema = new Schema(
       default: "",
     }, // Profile picture URL
     owner: { type: Schema.Types.ObjectId, ref: "User", required: true }, // Refers to the user who owns the page
-    // displayName: { type: String, default: "" }, // Profile name
-    // profileImage: { type: String, default: "" }, // Profile picture URL
-    // bgType: { type: String, default: "color" }, // Either "color" or "image"
-    // bgColor: { type: String, default: "#000" }, // Background color
-    // bgImage: { type: String, default: "" }, // Background image URL
     bio: {
       type: String,
       default: "Hey there! I'm using ConnectifyMe",

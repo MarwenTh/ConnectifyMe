@@ -102,30 +102,17 @@ const ProfilePreview: FC<Props> = ({
                   key={idx}
                   className=" w-full"
                 >
-                  <Button key={idx} className={` w-full ${link.variant} `}>
+                  <Button
+                    key={idx}
+                    className={` w-full ${link?.variant?.[0]?.buttonStyle} `}
+                  >
                     {link.title}
                   </Button>
                 </Link>
               ))}
           </div>
         </div>
-        {/* <div className="mt-auto w-full px-10">
-          {pathname === "/dashboard" ? (
-            <div className="text-center bg-neutral-900 text-neutral-50 shadow hover:bg-neutral-900/90 dark:bg-neutral-50 dark:text-neutral-900 dark:hover:bg-neutral-50/90 px-5 text-sm font-semibold py-2 rounded-full flex items-center space-x-2 sticky bottom-0">
-              <span>ConnectifyMe</span>
-              <FcBrokenLink size={25} className="flex-shrink-0" />
-            </div>
-          ) : (
-            <Link
-              href={pathname === "/dashboard" ? "#" : "/"}
-              target="_blank"
-              className="text-center bg-neutral-900 text-neutral-50 shadow hover:bg-neutral-900/90 dark:bg-neutral-50 dark:text-neutral-900 dark:hover:bg-neutral-50/90 px-5 text-sm font-semibold py-2 rounded-full flex items-center space-x-2 sticky bottom-0"
-            >
-              <span>Join {userData.username} on ConnectifyMe</span>
-              <FcBrokenLink size={25} className="flex-shrink-0" />
-            </Link>
-          )}
-        </div> */}
+
         <div className=" mt-auto ">
           {pathname === "/dashboard" ? (
             <div className="font-Poppins  dark:text-neutral-900  px-5 text-sm font-semibold py-2 rounded-full flex items-center space-x-2 sticky bottom-0 mb-1 mt-5">

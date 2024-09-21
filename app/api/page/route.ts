@@ -31,7 +31,22 @@ export async function POST(request: Request) {
       // If the user has a page, update it by adding the new link
       page = await Page.findByIdAndUpdate(
         page._id,
-        { $push: { links: newLink } },
+        {
+          $push: {
+            links: newLink,
+            variant: [
+              {
+                bgColor: "#000", // Default or new value
+                bgImage: "", // Default or new value
+                bgVideo: "", // Default or new value
+                textColor: "#fff", // Default or new value
+                textFont: "sans-serif", // Default or new value
+                buttonStyle: "", // Default or new value
+                styleStatus: "unlocked", // Default or new value
+              },
+            ],
+          },
+        },
         { new: true }
       );
     }
