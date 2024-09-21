@@ -48,7 +48,7 @@ const ProfilePreview: FC<Props> = ({
 
   return (
     <div
-      className={`${
+      className={` relative ${
         !isPublic
           ? "hidden md:flex justify-center items-center w-full lg:w-[40%] md:border-l border-[#e0e2d9]"
           : "w-full h-screen overflow-y-auto flex justify-center items-center pb-2 scrollbar-thumb-sky-700 scrollbar-track-transparent scrollbar-thin"
@@ -57,7 +57,7 @@ const ProfilePreview: FC<Props> = ({
       <ShineBorder
         borderWidth={2}
         borderRadius={24}
-        className={`${
+        className={` -z-50${
           !isPublic
             ? "relative border h-[85vh] w-96 flex flex-col items-center overflow-y-auto rounded-3xl shadow-2xl scrollbar-thumb-sky-700 scrollbar-track-transparent scrollbar-thin"
             : " flex flex-col items-center w-full lg:w-[35%] h-screen"
@@ -74,7 +74,7 @@ const ProfilePreview: FC<Props> = ({
         {loading && (
           <FaSpinner className=" animate-spin absolute left-5 top-3" />
         )}
-        <div className={`w-full  `}>
+        <div className={`w-full  z-[1] `}>
           <div className="flex flex-col items-center pt-14">
             <Image
               src={!isPublic ? data?.image : userData?.image}

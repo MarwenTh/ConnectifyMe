@@ -48,7 +48,7 @@ const Profile: FC<Props> = ({ data, setShouldFetch }) => {
   }, [data]);
 
   return (
-    <div className=" w-[65%] overflow-auto">
+    <div className=" w-full overflow-auto">
       <p className=" font-semibold font-Poppins mb-4 mt-12">Profile</p>
       <div className=" border border-red-500 p-6 rounded-3xl w-full shadow-lg">
         <div className=" flex flex-row justify-center items-center space-x-8 w-full ">
