@@ -5,6 +5,7 @@ import { FaCheck } from "react-icons/fa6";
 import { Button } from "../ui/button";
 import { FaTimes } from "react-icons/fa";
 import Promo from "../Promo";
+import Themes from "./Themes";
 
 type Props = {
   data: any;
@@ -17,6 +18,7 @@ const Appearance: FC<Props> = ({ data, setShouldFetch }) => {
       <div className=" flex flex-col justify-center items-center mx-20 space-y-5">
         <Profile data={data} setShouldFetch={setShouldFetch} />
         <Promo />
+        <Themes />
 
         <div></div>
       </div>

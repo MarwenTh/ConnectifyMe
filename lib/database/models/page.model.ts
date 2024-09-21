@@ -24,7 +24,17 @@ const PageSchema = new Schema(
         title: { type: String }, // Link title
         link: { type: String }, // Link URL
         active: { type: Boolean, default: true }, // Status if the link is active
-        variant: { type: String, default: "" }, // Variant for the link
+        variant: [
+          {
+            bgColor: { type: String, default: "#000" }, // Background color
+            bgImage: { type: String, default: "" }, // Background image URL
+            bgVideo: { type: String, default: "" }, // Background video URL
+            textColor: { type: String, default: "#fff" }, // Text color
+            textFont: { type: String, default: "sans-serif" }, // Text font
+            buttonStyle: { type: String, default: "" }, // Button style
+            styleStatus: { type: String, enum: ["locked", "unlocked"] }, // Style status
+          },
+        ],
       },
     ],
   },

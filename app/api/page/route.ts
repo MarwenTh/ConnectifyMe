@@ -16,15 +16,6 @@ export async function POST(request: Request) {
 
     const newLink: ILink = await request.json(); // Parse the request body
 
-    // if (
-    //   !newLink ||
-    //   typeof newLink !== "object" ||
-    //   !newLink.title ||
-    //   !newLink.link
-    // ) {
-    //   return NextResponse.json({ error: "Invalid link data" }, { status: 400 });
-    // }
-
     // Find if the user already has a page
     let page = await Page.findOne({ owner: currentUser.id });
 
