@@ -1,5 +1,4 @@
 "use client";
-import { ILink } from "@/interfaces";
 import axios from "axios";
 import React, { FC, useState } from "react";
 import CopyLink from "./CopyLink";
@@ -81,7 +80,7 @@ const Dashboard: FC<Props> = ({
     icon.name.toLowerCase().includes(search.toLowerCase())
   );
 
-  const addLinkData = async (newLink: ILink) => {
+  const addLinkData = async (newLink: any) => {
     try {
       setLoading(true);
       const response = await axios.post("/api/page", newLink);

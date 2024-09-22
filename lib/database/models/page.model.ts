@@ -14,22 +14,20 @@ const PageSchema = new Schema(
       default: "Hey there! I'm using ConnectifyMe",
       maxlength: 80,
     }, // User bio
+    textFont: { type: String, default: "Poppins" }, // Font for the text on the page
+    background: { type: String, default: "" }, // Background video URL
+    styleStatus: {
+      type: String,
+      enum: ["locked", "unlocked"],
+      default: "unlocked",
+    }, // Status for the page style
+
     links: [
       {
         title: { type: String }, // Link title
         link: { type: String }, // Link URL
         active: { type: Boolean, default: true }, // Status if the link is active
-        variant: [
-          {
-            bgColor: { type: String, default: "#000" }, // Background color
-            bgImage: { type: String, default: "" }, // Background image URL
-            bgVideo: { type: String, default: "" }, // Background video URL
-            textColor: { type: String, default: "#fff" }, // Text color
-            textFont: { type: String, default: "sans-serif" }, // Text font
-            buttonStyle: { type: String, default: "" }, // Button style
-            styleStatus: { type: String, enum: ["locked", "unlocked"] }, // Style status
-          },
-        ],
+        variant: { type: String, default: "" }, // Variant for the link button
       },
     ],
   },

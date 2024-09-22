@@ -1,6 +1,5 @@
 "use client";
 import ProfilePreview from "@/components/ProfilePreview";
-import { ILink } from "@/interfaces";
 import axios from "axios";
 import React, { FC, useEffect, useState } from "react";
 import { PropagateLoader } from "react-spinners";
@@ -12,7 +11,7 @@ type Props = {
 const UserPage: FC<Props> = ({ params }) => {
   const [userData, setUserData] = useState(null);
   const username = params.username;
-  const [links, setLinks] = useState<ILink[]>([]);
+  const [links, setLinks] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 

@@ -1,14 +1,13 @@
 "use client";
 import Appearance from "@/components/appearance/Appearance";
 import ProfilePreview from "@/components/ProfilePreview";
-import { ILink } from "@/interfaces";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 type Props = {};
 
 const page = (props: Props) => {
-  const [linksArray, setLinksArray] = useState<ILink[]>([]);
+  const [linksArray, setLinksArray] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<any>({});
   const [shouldFetch, setShouldFetch] = useState<boolean>(true);

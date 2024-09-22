@@ -6,12 +6,11 @@ import { Button } from "./ui/button";
 import { FcBrokenLink } from "react-icons/fc";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ILink } from "@/interfaces";
 import { FaSpinner } from "react-icons/fa6";
 import ShineBorder from "./ui/borderBeam";
 
 type Props = {
-  links: Array<ILink>;
+  links: any;
   loading?: boolean;
   isPublic?: boolean;
   userData?: any;
@@ -57,7 +56,7 @@ const ProfilePreview: FC<Props> = ({
       <ShineBorder
         borderWidth={2}
         borderRadius={24}
-        className={` -z-50${
+        className={`  ${
           !isPublic
             ? "relative border h-[85vh] w-96 flex flex-col items-center overflow-y-auto rounded-3xl shadow-2xl scrollbar-thumb-sky-700 scrollbar-track-transparent scrollbar-thin"
             : " flex flex-col items-center w-full lg:w-[35%] h-screen"
@@ -92,20 +91,17 @@ const ProfilePreview: FC<Props> = ({
           </div>
           <div className=" flex flex-col space-y-3 w-full px-10 mb-2">
             {links
-              ?.filter((link) => link.active)
+              ?.filter((link: any) => link.active)
               ?.slice()
               .reverse()
-              .map((link, idx) => (
+              .map((link: any, idx: number) => (
                 <Link
                   href={link.link.startsWith("https") ? link.link : ""}
                   target={link.link.startsWith("https") ? "_blank" : ""}
                   key={idx}
                   className=" w-full"
                 >
-                  <Button
-                    key={idx}
-                    className={` w-full ${link?.variant?.[0]?.buttonStyle} `}
-                  >
+                  <Button key={idx} className={` w-full ${link?.variant} `}>
                     {link.title}
                   </Button>
                 </Link>

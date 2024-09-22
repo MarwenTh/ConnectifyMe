@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { getUserData } from "@/lib/actions/getUser";
 import Page from "@/lib/database/models/page.model";
 import User from "@/lib/database/models/user.model";
-import { ILink } from "@/interfaces/index";
 
 export async function POST(request: Request) {
   try {
@@ -14,42 +13,43 @@ export async function POST(request: Request) {
       );
     }
 
-    const newLink: ILink = await request.json(); // Parse the request body
+    const newLink: any = await request.json(); // Parse the request body
 
-    // Find if the user already has a page
-    let page = await Page.findOne({ owner: currentUser.id });
+    const page = await Page.findOne({ owner: currentUser.id });
 
-    if (!page) {
-      // If the user doesn't have a page, create one with the new link and associate it with the user
-      page = await Page.create({ links: [newLink], owner: currentUser.id });
-      await User.findByIdAndUpdate(
-        currentUser.id,
-        { page: page.id },
-        { new: true }
-      );
-    } else {
-      // If the user has a page, update it by adding the new link
-      page = await Page.findByIdAndUpdate(
-        page._id,
-        {
-          $push: {
-            links: newLink,
-            variant: [
-              {
-                bgColor: "#000", // Default or new value
-                bgImage: "", // Default or new value
-                bgVideo: "", // Default or new value
-                textColor: "#fff", // Default or new value
-                textFont: "sans-serif", // Default or new value
-                buttonStyle: "", // Default or new value
-                styleStatus: "unlocked", // Default or new value
-              },
-            ],
-          },
+    await Page.findByIdAndUpdate(
+      page._id,
+      {
+        $push: {
+          links: newLink,
         },
-        { new: true }
-      );
-    }
+      },
+      { new: true }
+    );
+
+    //     // Find if the user already has a page
+    //     let page = await Page.findOne({ owner: currentUser.id });
+    //
+    //     if (!page) {
+    //       // If the user doesn't have a page, create one with the new link and associate it with the user
+    //       page = await Page.create({ links: [newLink], owner: currentUser.id });
+    //       await User.findByIdAndUpdate(
+    //         currentUser.id,
+    //         { page: page.id },
+    //         { new: true }
+    //       );
+    //     } else {
+    //       // If the user has a page, update it by adding the new link
+    //       page = await Page.findByIdAndUpdate(
+    //         page._id,
+    //         {
+    //           $push: {
+    //             links: newLink,
+    //           },
+    //         },
+    //         { new: true }
+    //       );
+    //     }
 
     return NextResponse.json(page);
   } catch (error) {

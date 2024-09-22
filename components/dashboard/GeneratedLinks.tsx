@@ -6,7 +6,6 @@ import { Switch } from "../ui/switch";
 import { SiSimpleanalytics } from "react-icons/si";
 import { PiTrashThin } from "react-icons/pi";
 import axios from "axios";
-import { ILink } from "@/interfaces";
 import { FcLink } from "react-icons/fc";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -24,7 +23,6 @@ const GeneratedLinks: FC<Props> = ({ modalOpen, refreshLinks, data }) => {
   const [title, setTitle] = useState<string | null>(null);
   const [editTitleIndex, setEditTitleIndex] = useState<number | null>(null);
   const [editLinkIndex, setEditLinkIndex] = useState<number | null>(null);
-  // const [linksArray, setLinksArray] = useState<ILink[]>(data?.links);
 
   // Call this function whenever you need to refresh the data
 

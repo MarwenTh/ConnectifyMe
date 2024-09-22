@@ -1,7 +1,6 @@
 "use client";
 import Dashboard from "@/components/dashboard/Dashboard";
 import ProfilePreview from "@/components/ProfilePreview";
-import { ILink } from "@/interfaces";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { PropagateLoader } from "react-spinners";
@@ -9,7 +8,7 @@ import { PropagateLoader } from "react-spinners";
 type Props = {};
 
 const page = (props: Props) => {
-  const [linksArray, setLinksArray] = useState<ILink[]>([]);
+  const [linksArray, setLinksArray] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<any>({});
   const [shouldFetch, setShouldFetch] = useState<boolean>(true);
