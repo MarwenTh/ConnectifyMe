@@ -47,29 +47,19 @@ const ProfilePreview: FC<Props> = ({
 
   return (
     <div
-      className={` relative ${
+      className={`relative ${
         !isPublic
           ? "hidden md:flex justify-center items-center w-full lg:w-[40%] md:border-l border-[#e0e2d9]"
-          : "w-full h-screen overflow-y-auto flex justify-center items-center pb-2 scrollbar-thumb-sky-700 scrollbar-track-transparent scrollbar-thin"
+          : `w-full h-screen overflow-y-auto flex justify-center items-center pb-2 scrollbar-thumb-sky-700 scrollbar-track-transparent scrollbar-thin ${userData?.background}`
       }`}
     >
-      <ShineBorder
-        borderWidth={2}
-        borderRadius={24}
-        className={`  ${
+      <div
+        className={` ${
           !isPublic
-            ? "relative border h-[85vh] w-96 flex flex-col items-center overflow-y-auto rounded-3xl shadow-2xl scrollbar-thumb-sky-700 scrollbar-track-transparent scrollbar-thin"
+            ? `relative border h-[85vh] w-96 flex flex-col items-center overflow-y-auto rounded-3xl shadow-2xl scrollbar-thumb-sky-700 scrollbar-track-transparent scrollbar-thin ${data?.background}`
             : " flex flex-col items-center w-full lg:w-[35%] h-screen"
         }`}
-        color={["#A07CFE", "#FE8FB5", "#FFBE7B", "#FF8F8F"]}
       >
-        {/* <div
-        // className={`${
-        //   !isPublic
-        //     ? "relative border h-[85vh] w-96 flex flex-col items-center overflow-y-auto rounded-3xl shadow-2xl scrollbar-thumb-sky-700 scrollbar-track-transparent scrollbar-thin"
-        //     : " flex flex-col items-center w-full lg:w-[35%] h-screen"
-        // }`}
-        > */}
         {loading && (
           <FaSpinner className=" animate-spin absolute left-5 top-3" />
         )}
@@ -130,8 +120,7 @@ const ProfilePreview: FC<Props> = ({
             </Link>
           )}
         </div>
-        {/* </div> */}
-      </ShineBorder>
+      </div>
     </div>
   );
 };

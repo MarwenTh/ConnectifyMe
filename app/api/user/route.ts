@@ -38,6 +38,7 @@ export async function GET(request: Request) {
         image: page.image,
         bio: page.bio,
         links: page.links,
+        background: page.background,
       },
     });
   } catch (error) {

@@ -105,7 +105,7 @@ export async function PUT(request: Request) {
       );
     }
 
-    const { username, bio } = await request.json();
+    const { username, bio, textFont, background } = await request.json();
 
     let page = await Page.findOne({ owner: currentUser.id });
 
@@ -127,6 +127,18 @@ export async function PUT(request: Request) {
       );
     } else if (bio) {
       page = await Page.findByIdAndUpdate(page._id, { bio }, { new: true });
+    } else if (background) {
+      page = await Page.findByIdAndUpdate(
+        page._id,
+        { background },
+        { new: true }
+      );
+    } else if (textFont) {
+      page = await Page.findByIdAndUpdate(
+        page._id,
+        { textFont },
+        { new: true }
+      );
     } else {
       return NextResponse.json({ error: "Invalid data" }, { status: 400 });
     }
