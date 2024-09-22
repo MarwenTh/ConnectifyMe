@@ -44,15 +44,29 @@ const ProfilePreview: FC<Props> = ({
       color: "bg-gradient-to-r from-[#ff0000] to-[#282828]",
     },
   ];
+  console.log("data", data);
 
   return (
     <div
       className={`relative ${
         !isPublic
-          ? "hidden md:flex justify-center items-center w-full lg:w-[40%] md:border-l border-[#e0e2d9]"
-          : `w-full h-screen overflow-y-auto flex justify-center items-center pb-2 scrollbar-thumb-sky-700 scrollbar-track-transparent scrollbar-thin ${userData?.background}`
+          ? `hidden md:flex justify-center items-center w-full lg:w-[40%] md:border-l border-[#e0e2d9] `
+          : `w-full h-screen overflow-y-auto flex justify-center items-center pb-2 scrollbar-thumb-sky-700 scrollbar-track-transparent scrollbar-thin ${
+              userData?.background?.match(/\.(mp4|webm)$/i)
+                ? ""
+                : `${data?.background}`
+            }`
       }`}
     >
+      {userData?.background?.match(/\.(mp4|webm)$/i) ? (
+        <video
+          src={userData?.background}
+          autoPlay
+          loop
+          muted
+          className="absolute inset-0 w-full h-full object-cover blur-2xl"
+        />
+      ) : null}
       <div
         className={` ${
           !isPublic
@@ -60,6 +74,15 @@ const ProfilePreview: FC<Props> = ({
             : " flex flex-col items-center w-full lg:w-[35%] h-screen"
         }`}
       >
+        {data?.background?.match(/\.(mp4|webm)$/i) ? (
+          <video
+            src={data?.background}
+            autoPlay
+            loop
+            muted
+            className="absolute inset-0 w-full h-full object-cover blur-2xl"
+          />
+        ) : null}
         {loading && (
           <FaSpinner className=" animate-spin absolute left-5 top-3" />
         )}
