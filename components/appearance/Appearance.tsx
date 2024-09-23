@@ -15,10 +15,10 @@ type Props = {
 const Appearance: FC<Props> = ({ data, setShouldFetch }) => {
   return (
     <div className="md:col-span-3 overflow-auto h-screen lg:w-[60%] scrollbar-thumb-slate-500 scrollbar-track-transparent scrollbar-thin scrollbar-corner-violet-800">
-      <div className=" flex flex-col justify-center items-center mx-20 space-y-5">
+      <div className=" flex flex-col mx-20 space-y-5">
         <Profile data={data} setShouldFetch={setShouldFetch} />
         <Promo />
-        <Themes />
+        <Themes setShouldFetch={setShouldFetch} />
 
         <div></div>
       </div>

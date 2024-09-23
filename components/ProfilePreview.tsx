@@ -64,7 +64,7 @@ const ProfilePreview: FC<Props> = ({
           autoPlay
           loop
           muted
-          className="absolute inset-0 w-full h-full object-cover blur-2xl"
+          className="fixed inset-0 w-full h-full object-cover blur-2xl"
         />
       ) : null}
       <div
@@ -80,7 +80,7 @@ const ProfilePreview: FC<Props> = ({
             autoPlay
             loop
             muted
-            className="absolute inset-0 w-full h-full object-cover blur-2xl"
+            className="fixed h-[85vh] w-96 object-cover blur-md"
           />
         ) : null}
         {loading && (
