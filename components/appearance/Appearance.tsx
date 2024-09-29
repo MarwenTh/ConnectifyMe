@@ -18,7 +18,7 @@ const Appearance: FC<Props> = ({ data, setShouldFetch }) => {
       <div className=" flex flex-col mx-20 space-y-5">
         <Profile data={data} setShouldFetch={setShouldFetch} />
         <Promo />
-        <Themes setShouldFetch={setShouldFetch} />
+        <Themes setShouldFetch={setShouldFetch} data={data} />
 
         <div></div>
       </div>

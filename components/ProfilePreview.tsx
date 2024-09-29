@@ -44,7 +44,7 @@ const ProfilePreview: FC<Props> = ({
       color: "bg-gradient-to-r from-[#ff0000] to-[#282828]",
     },
   ];
-  console.log("data", data);
+  console.log("data", userData?.background);
 
   return (
     <div
@@ -54,7 +54,7 @@ const ProfilePreview: FC<Props> = ({
           : `w-full h-screen overflow-y-auto flex justify-center items-center pb-2 scrollbar-thumb-sky-700 scrollbar-track-transparent scrollbar-thin ${
               userData?.background?.match(/\.(mp4|webm)$/i)
                 ? ""
-                : `${data?.background}`
+                : `${userData?.background}`
             }`
       }`}
     >
