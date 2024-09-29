@@ -105,9 +105,17 @@ export async function PUT(request: Request) {
       );
     }
 
-    const { username, bio, textFont, background } = await request.json();
+    const { username, bio, textFont, background, variant } =
+      await request.json();
 
     let page = await Page.findOne({ owner: currentUser.id });
+    let updateData: {
+      bio?: string;
+      username?: string;
+      background?: string;
+      textFont?: string;
+      "links.$[].variant"?: string;
+    } = {};
 
     if (username) {
       const existingPage = await Page.findOne({
@@ -117,31 +125,29 @@ export async function PUT(request: Request) {
       if (existingPage) {
         return NextResponse.json(
           { error: "Username is already taken by another user." },
-          { status: 409 } // Conflict status code
+          { status: 409 }
         );
       }
-      page = await Page.findByIdAndUpdate(
-        page._id,
-        { username },
-        { new: true }
-      );
-    } else if (bio) {
-      page = await Page.findByIdAndUpdate(page._id, { bio }, { new: true });
-    } else if (background) {
-      page = await Page.findByIdAndUpdate(
-        page._id,
-        { background },
-        { new: true }
-      );
-    } else if (textFont) {
-      page = await Page.findByIdAndUpdate(
-        page._id,
-        { textFont },
-        { new: true }
-      );
-    } else {
+      updateData.username = username;
+    }
+
+    if (bio) updateData.bio = bio;
+    if (background) updateData.background = background;
+    if (textFont) updateData.textFont = textFont;
+
+    if (variant) {
+      updateData["links.$[].variant"] = variant;
+    }
+
+    if (Object.keys(updateData).length === 0) {
       return NextResponse.json({ error: "Invalid data" }, { status: 400 });
     }
+
+    page = await Page.findByIdAndUpdate(
+      page._id,
+      { $set: updateData },
+      { new: true }
+    );
 
     return NextResponse.json(page);
   } catch (error) {
