@@ -6,6 +6,8 @@ import { Button } from "../ui/button";
 import { FaTimes } from "react-icons/fa";
 import Promo from "../Promo";
 import Themes from "./Themes";
+import Backgrounds from "./Backgrounds";
+import Buttons from "./Buttons";
 
 type Props = {
   data: any;
@@ -19,6 +21,16 @@ const Appearance: FC<Props> = ({ data, setShouldFetch }) => {
         <Profile data={data} setShouldFetch={setShouldFetch} />
         <Promo />
         <Themes setShouldFetch={setShouldFetch} data={data} />
+        <h1 className="font-semibold font-Poppins text-lg">
+          Custom appearance
+        </h1>
+        <p className=" font-medium">
+          Completely customize your Linktree profile. Change your background
+          with colors, gradients and images. Choose a button style, change the
+          typeface and more.
+        </p>
+        <Backgrounds data={data} setShouldFetch={setShouldFetch} />
+        <Buttons data={data} setShouldFetch={setShouldFetch} />
 
         <div></div>
       </div>

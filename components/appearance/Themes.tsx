@@ -74,6 +74,11 @@ const Themes: FC<Props> = ({ setShouldFetch, data }) => {
       style: "https://www.w3schools.com/html/mov_bbb.mp4",
       buttonVariant: "",
     },
+    {
+      name: "Space",
+      style: "https://samplelib.com/lib/preview/mp4/sample-5s.mp4",
+      buttonVariant: "",
+    },
   ];
 
   const [selectedBg, setSelectedBg] = useState<string>("");
@@ -112,15 +117,31 @@ const Themes: FC<Props> = ({ setShouldFetch, data }) => {
             className="flex flex-col items-center cursor-pointer"
             onClick={() => handleBgChange(item.style, item.buttonVariant)}
           >
-            <div
-              className={`${
-                item.style
-              } w-full h-48 sm:h-64 md:h-80 lg:h-96 text-center p-4 rounded-lg hover:border-2 transition duration-200 ease-in-out ${
-                selectedBg === item.style
-                  ? "border-2 border-blue-500 shadow-lg" // Highlight selected theme
-                  : "hover:border-gray-400 hover:skew-x-2 "
-              }`}
-            ></div>
+            {item.style.match(/(http(s?):)([/|.|\w|\s|-])*\.(?:mp4)/) ? (
+              <video
+                className={`w-full h-48 sm:h-64 md:h-80 lg:h-96 object-cover rounded-lg 
+                  ${
+                    selectedBg === item.style
+                      ? "border-2 border-blue-500 shadow-lg"
+                      : ""
+                  }`}
+                autoPlay
+                loop
+                muted
+              >
+                <source src={item.style} type="video/mp4" />
+              </video>
+            ) : (
+              <div
+                className={`${
+                  item.style
+                } w-full h-48 sm:h-64 md:h-80 lg:h-96 text-center p-4 rounded-lg hover:border-2 transition duration-200 ease-in-out ${
+                  selectedBg === item.style
+                    ? "border-2 border-blue-500 shadow-lg" // Highlight selected theme
+                    : "hover:border-gray-400 hover:skew-x-2 "
+                }`}
+              ></div>
+            )}
             <div className="my-2 text-sm sm:text-base">{item.name}</div>
           </div>
         ))}
